@@ -16,7 +16,7 @@
 
 - [x] 🔺 Remove ads Admobs #issue #production #v1.4.1-beta 🆔 12JQDX
 - [ ] 🔼 fix CI workflows GitHub because use build tool version old #development #v1.4.1-beta 🆔 ygnpkX
-- [ ] 🔼 integration CI triple T before upload F-droid for get metadata from Google Play Store and automation release #development #v1.4.1-beta 🆔 MJYdaS
+- [/] 🔼 integration CI triple T before upload F-droid for get metadata from Google Play Store and automation release #development #v1.4.1-beta 🛫 2026-09-26 15:12 🆔 MJYdaS
 - [ ] 🔼 integration f-droid #v1.4.1-beta #development 🆔 wBCI3F
 - [x] 🔺 change record show dialog support for duration start #v1.4.1-beta #development #feature 🛫 2026-09-22 19:57 ✅ 2026-09-23 07:36 🆔 U2Daoc
 - [x] 🔼 mungkin perlu penambahan effect blink ? #feature #v1.4.1-beta #development 🛫 2026-09-19 04:58 ✅ 2026-09-23 02:12 ➕ 2026-09-15 22:39 🆔 c9OpU4
@@ -38,5 +38,5 @@
 - [x] ⏫ penambahan trigger review in playstore #v1.4.1-beta #feature #development 🛫 2026-09-24 21:19 ✅ 2026-09-24 22:52 ➕ 2026-09-24 21:12 🆔 Ki2UG4
 - [x] 🔺 sekarang #issue itu adalah duplikasi antara download, preview, dan download memiliki ratio yang berbeda-berbeda serta ukurannya. ini membuat tidak konsisten #development #v1.4.1-beta 🛫 2026-09-25 13:31 ✅ 2026-09-25 19:49 ➕ 2026-09-25 09:41 🆔 BbP47p
 - [x] ⏫ buat seluruh ukuran mengikutin ratio ukuran device sehingga ketika mengatur width nya dinamis tinggi akan mengikutin width tersebut #issue #production #v1.4.1-beta 🛫 2026-09-25 13:33 ✅ 2026-09-25 14:26 ➕ 2026-09-25 13:33 🆔 S4XPp9
-- [/] ⏫ pada loading seperti nya perlu indikasi angka berapa persen proses nya terkadang memakan waktu cukup lama #feature #development #v1.4.1-beta 🛫 2026-09-25 23:14 ➕ 2026-09-25 19:50 🆔 CGCbLU
-- [ ] ⏫ apa perlu menambahkan google anality untuk variant Playstore ? #v1.4.1-beta #development #feature , jika iya tapi apa saja perlu di analisis? ➕ 2026-09-26 07:30 📝 2026-09-26 07:33 🆔 znPnuE
+- [x] ⏫ pada loading seperti nya perlu indikasi angka berapa persen proses nya terkadang memakan waktu cukup lama #feature #development #v1.4.1-beta 🛫 2026-09-25 23:14 ✅ 2026-09-26 08:03 ➕ 2026-09-25 19:50 🆔 CGCbLU
+- [-] ⏫ apa perlu menambahkan google anality untuk variant Playstore ? #v1.4.1-beta #development #feature , jika iya tapi apa saja perlu di analisis? 🛫 2026-09-26 08:03 ❌ 2026-09-26 15:08 ➕ 2026-09-26 07:30 📝 2026-09-26 07:33 🆔 znPnuE // tidak perlu report lebih baik lakukan secara survei

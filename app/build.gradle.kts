@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.hilt.android)
 
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.play.publisher)
 }
 
 val localProperties = Properties().apply {
@@ -113,6 +114,32 @@ androidComponents {
             output.outputFileName.set("$appName-v$vName-${variant.buildType}.apk")
         }
     }
+}
+
+play {
+    val playAccountJsonFromEnv = System.getenv("PLAY_SERVICE_ACCOUNT_JSON")
+    val playAccountFilePath = localProperties.getProperty("PLAY_SERVICE_ACCOUNT_FILE")
+        ?: System.getenv("PLAY_SERVICE_ACCOUNT_FILE")
+
+    when {
+        !playAccountJsonFromEnv.isNullOrEmpty() -> {
+            val tempFile = layout.buildDirectory.file("play-service-account.json").get().asFile
+            if (!tempFile.exists()) {
+                tempFile.parentFile.mkdirs()
+                tempFile.writeText(playAccountJsonFromEnv)
+            }
+            serviceAccountCredentials.set(tempFile)
+        }
+        !playAccountFilePath.isNullOrEmpty() -> {
+            serviceAccountCredentials.set(file(playAccountFilePath))
+        }
+        else -> {
+            serviceAccountCredentials.set(rootProject.file("play-service-account.json"))
+        }
+    }
+
+    track.set("internal")
+    defaultToAppBundles.set(true)
 }
 
 dependencies {
