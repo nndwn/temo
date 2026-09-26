@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("../changelog-publish-android")
     repositories {
         google {
             content {

@@ -1,5 +1,4 @@
 import java.util.Properties
-import javax.xml.parsers.DocumentBuilderFactory
 import kotlin.apply
 
 plugins {
@@ -17,25 +16,6 @@ val localProperties = Properties().apply {
     if (localPropertiesFile.exists()) {
         load(localPropertiesFile.inputStream())
     }
-}
-
-fun getAppNameFromStrings(): String {
-    val stringsFile = File(projectDir, "src/main/res/values/strings.xml")
-    if (!stringsFile.exists()) return "App"
-
-    val doc = DocumentBuilderFactory
-        .newInstance()
-        .newDocumentBuilder()
-        .parse(stringsFile)
-    val nodeList = doc.getElementsByTagName("string")
-
-    for (i in 0 until nodeList.length) {
-        val node = nodeList.item(i)
-        if (node.attributes?.getNamedItem("name")?.nodeValue == "app_name") {
-            return node.textContent ?: "App"
-        }
-    }
-    return "App"
 }
 
 android {
@@ -106,15 +86,7 @@ android {
 
 }
 
-androidComponents {
-    onVariants(selector().withFlavor("distribution" to "foss")) { variant ->
-        variant.outputs.forEach { output ->
-            val appName = getAppNameFromStrings().replace(" ", "-")
-            val vName = output.versionName.get()
-            output.outputFileName.set("$appName-v$vName-${variant.buildType}.apk")
-        }
-    }
-}
+
 
 play {
     val playAccountJsonFromEnv = System.getenv("PLAY_SERVICE_ACCOUNT_JSON")
