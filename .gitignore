@@ -16,3 +16,4 @@ local.properties
 /raw/.ignore/
 .idea
 /app/release/
+/play-service-account.json
