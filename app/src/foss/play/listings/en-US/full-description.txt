@@ -1,0 +1,25 @@
+Visual messaging in dark, loud venues requires more than just text. RunText was built to revolutionize event communication by combining customizable LED banner displays with an advanced Morse code transmitter. From flashing Morse light signals in Korean Hangul to catch your idol's eye at K-Pop concerts, to displaying bold LED marquee banners or broadcasting emergency SOS flashes, RunText provides an all-in-one light communication tool for any venue.
+
+KEY FEATURES
+
+LED SCROLLER BOARD
+- Smooth Scrolling: High performance text animation without lag.
+- Text Customization: Change font style, text size, letter spacing, and word spacing.
+- Outline and Shadow Effects: Add strokes, glow radius, shadow angles, and custom outline thickness.
+- Colors and Gradients: Supports solid colors and horizontal or vertical linear gradients.
+- Mirror Mode: Flip text horizontally for reflective displays or rear view mirrors.
+- Speed Control: Adjust text animation speed from slow to fast.
+
+MORSE CODE TRANSMITTER
+- Korean Hangul Support: Translates Korean Hangul alphabets (SKATS Morse) alongside standard Latin text.
+- Instant Conversion: Automatically converts typed text into Morse code signals.
+- Flashlight Output: Uses the camera flash to send light signals over distance.
+- Screen Flash: Uses the phone screen to flash bright color signals.
+- Audio Beeps: Plays clear audio tones for Morse code dots and dashes.
+- Haptic Feedback: Optional vibration for signal pulse awareness.
+- Adjustable Speed: Control Morse speed in Words Per Minute (WPM).
+
+OTHER HIGHLIGHTS
+- Clean and intuitive interface with real-time live preview.
+- Optimized for performance and battery efficiency during long display sessions.
+- Suitable for concerts, airports, taxis, night venues, and emergency SOS signaling.
