@@ -2,4 +2,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
-- change record show dialog support for duration start #v1.4.1-beta #development #feature
+- fix issue UI
+- remove ads
+- add 3 font Korea
+- add 1 presets
+- add feature download and share
+- change name dan metadata
+- optimize performance 
