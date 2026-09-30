@@ -133,4 +133,25 @@ class SettingsDataStoreTest {
       shouldShowReview = settingsDataStore.shouldShowReviewPrompt.first()
       assertEquals(false, shouldShowReview)
     }
+
+  @Test
+  fun `recordReviewPromptDismissed resets review time and allows prompt again after another hour`() =
+    runTest(testDispatcher) {
+      val isPlaystore = AppFlavor.current == AppFlavor.PLAYSTORE
+
+      // Accumulate 1 hour
+      settingsDataStore.incrementUsageTime(3_600_000L)
+      var shouldShowReview = settingsDataStore.shouldShowReviewPrompt.first()
+      assertEquals(isPlaystore, shouldShowReview)
+
+      // User dismisses ("Lain Waktu") -> reset cooldown
+      settingsDataStore.recordReviewPromptDismissed()
+      shouldShowReview = settingsDataStore.shouldShowReviewPrompt.first()
+      assertEquals(false, shouldShowReview)
+
+      // Accumulate another 1 hour -> should show again if Play Store
+      settingsDataStore.incrementUsageTime(3_600_000L)
+      shouldShowReview = settingsDataStore.shouldShowReviewPrompt.first()
+      assertEquals(isPlaystore, shouldShowReview)
+    }
 }

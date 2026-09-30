@@ -19,26 +19,20 @@ import com.nndwn.runtext.ui.LocalSizeWidth
 import com.nndwn.runtext.ui.theme.RuntextTheme
 
 @Composable
-fun DialogSupport(
+fun DialogReview(
   showPanel: Boolean,
-  price: String? = null,
   onDismiss: () -> Unit = {},
-  onClickBuyApp: () -> Unit = {},
+  onClickReviewApp: () -> Unit = {},
 ) {
-  val primaryLabel =
-    if (price != null) {
-      "${stringResource(R.string.btn_text_remove_ad)} ($price)"
-    } else {
-      stringResource(R.string.btn_text_remove_ad)
-    }
+  val appName = stringResource(R.string.app_name)
 
   ActionDialog(
     showPanel = showPanel,
-    iconResId = R.drawable.ic_coffee,
-    title = stringResource(R.string.buy_coffee),
-    description = stringResource(R.string.text_dialog_support),
-    primaryButtonLabel = primaryLabel,
-    onClickPrimary = onClickBuyApp,
+    iconResId = R.drawable.ic_star,
+    title = stringResource(R.string.title_dialog_review, appName),
+    description = stringResource(R.string.text_dialog_review, appName),
+    primaryButtonLabel = stringResource(R.string.btn_rate_app_now),
+    onClickPrimary = onClickReviewApp,
     onDismiss = onDismiss,
   )
 }
@@ -51,6 +45,6 @@ private fun Preview() {
   Box(modifier = Modifier.fillMaxSize()) { Button(onClick = { show = !show }) { Text("Show and Hide") } }
 
   CompositionLocalProvider(LocalSizeWidth provides WindowWidthSizeClass.Compact) {
-    RuntextTheme { DialogSupport(true) }
+    RuntextTheme { DialogReview(true) }
   }
 }

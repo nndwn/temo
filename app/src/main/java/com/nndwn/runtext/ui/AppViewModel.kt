@@ -49,6 +49,10 @@ constructor(
     viewModelScope.launch { repository.resetCooldownSupportDialog() }
   }
 
+  fun recordReviewCompleted() {
+    viewModelScope.launch { repository.recordReviewCompleted() }
+  }
+
   fun resetCooldownReviewPrompt() {
     viewModelScope.launch { repository.resetCooldownReviewPrompt() }
   }

@@ -2,9 +2,11 @@ package com.nndwn.runtext.ui.features.debug
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -13,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -24,26 +27,27 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nndwn.runtext.AppFlavor
-import com.nndwn.runtext.ui.utils.launchInAppReview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DebugScreen(viewModel: DebugViewModel = hiltViewModel(), onBack: () -> Unit = {}) {
-  val context = LocalContext.current
-
   val hasTipped by viewModel.hasTipped.collectAsStateWithLifecycle()
   val accumulatedSupportTime by viewModel.accumulatedSupportTime.collectAsStateWithLifecycle()
   val accumulatedReviewTime by viewModel.accumulatedReviewTime.collectAsStateWithLifecycle()
   val hasRequestedReview by viewModel.hasRequestedReview.collectAsStateWithLifecycle()
   val shouldShowSupportDialog by viewModel.shouldShowSupportDialog.collectAsStateWithLifecycle()
   val shouldShowReviewPrompt by viewModel.shouldShowReviewPrompt.collectAsStateWithLifecycle()
+
+  val testResults by viewModel.testResults.collectAsStateWithLifecycle()
+  val isRunningTest by viewModel.isRunningTest.collectAsStateWithLifecycle()
+  val currentRunningScenarioId by viewModel.currentRunningScenarioId.collectAsStateWithLifecycle()
 
   Scaffold(
     topBar = {
@@ -77,58 +81,103 @@ fun DebugScreen(viewModel: DebugViewModel = hiltViewModel(), onBack: () -> Unit 
 
           Text("App Flavor: ${AppFlavor.current}")
           Text("Has Tipped: $hasTipped")
-          Text("Support Usage Time: ${accumulatedSupportTime / 1000}s / 900s (Dialog Active: $shouldShowSupportDialog)")
+          Text("Support Usage Time: ${accumulatedSupportTime / 1000}s / 900s (Active: $shouldShowSupportDialog)")
           Text("Review Usage Time: ${accumulatedReviewTime / 1000}s / 3600s")
           Text("Has Requested Review: $hasRequestedReview")
           Text("Review Prompt Active: $shouldShowReviewPrompt", fontWeight = FontWeight.Bold)
         }
       }
 
-      // 🧪 Test Actions
-      Text("🧪 Visual & Trigger Tests", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+      // 🧪 Automated Test Scenario Runners
+      Text("🧪 Automated Scenario Tests", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
 
-      Button(
-        onClick = { launchInAppReview(context) },
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-      ) {
-        Text("🚀 Direct Test Launch In-App Review Flow")
-      }
-
-      Button(
-        onClick = { viewModel.forceShowReviewPrompt() },
-        modifier = Modifier.fillMaxWidth(),
-      ) {
-        Text("⏱️ Force Set Review Time (1 Hour Ready)")
-      }
-
-      Button(
-        onClick = { viewModel.forceShowSupportDialog() },
-        modifier = Modifier.fillMaxWidth(),
-      ) {
-        Text("☕ Force Set Support Time (15 Mins Ready)")
+      viewModel.scenarios.forEach { scenario ->
+        val isThisScenarioRunning = isRunningTest && currentRunningScenarioId == scenario.id
+        Button(
+          onClick = { viewModel.runScenario(scenario) },
+          enabled = !isRunningTest,
+          modifier = Modifier.fillMaxWidth(),
+          colors = ButtonDefaults.buttonColors(
+            containerColor = if (scenario.id == "review_dialog") {
+              MaterialTheme.colorScheme.primary
+            } else {
+              MaterialTheme.colorScheme.secondary
+            }
+          ),
+        ) {
+          Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+          ) {
+            if (isThisScenarioRunning) {
+              CircularProgressIndicator(
+                modifier = Modifier.size(18.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                strokeWidth = 2.dp,
+              )
+              Text("Running Scenario...")
+            } else {
+              Text("${scenario.buttonEmoji} ${scenario.buttonText}")
+            }
+          }
+        }
       }
 
       OutlinedButton(
-        onClick = { viewModel.toggleTipped(hasTipped) },
-        modifier = Modifier.fillMaxWidth(),
-      ) {
-        Text("☕ Toggle Has Tipped Status (Current: $hasTipped)")
-      }
-
-      OutlinedButton(
-        onClick = { viewModel.resetReviewStatus() },
-        modifier = Modifier.fillMaxWidth(),
-      ) {
-        Text("🔄 Reset Review Status (Allow Re-test)")
-      }
-
-      Button(
         onClick = { viewModel.resetDataStore() },
+        enabled = !isRunningTest,
         modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
       ) {
-        Text("⚠️ Reset All DataStore")
+        Text("🔄 Reset DataStore & Logs")
+      }
+
+      // 📋 Test Logs & Results
+      if (testResults.isNotEmpty()) {
+        Text("📋 Test Results Log", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall)
+
+        testResults.forEach { result ->
+          Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+              containerColor = if (result.isPassed) {
+                MaterialTheme.colorScheme.primaryContainer
+              } else {
+                MaterialTheme.colorScheme.errorContainer
+              }
+            ),
+          ) {
+            Column(
+              modifier = Modifier.padding(12.dp),
+              verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+              val icon = if (result.isPassed) "✅" else "❌"
+              Text(
+                "$icon Step ${result.stepNumber}: ${result.title}",
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium,
+              )
+              Text(
+                result.detailMessage,
+                style = MaterialTheme.typography.bodySmall,
+              )
+            }
+          }
+        }
+
+        if (!isRunningTest && testResults.all { it.isPassed }) {
+          Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
+          ) {
+            Text(
+              "🎉 SCENARIO PASSED SUCCESSFULLY!",
+              modifier = Modifier.padding(12.dp),
+              fontWeight = FontWeight.Bold,
+              style = MaterialTheme.typography.bodyMedium,
+              color = MaterialTheme.colorScheme.onTertiaryContainer,
+            )
+          }
+        }
       }
     }
   }

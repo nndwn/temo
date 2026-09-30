@@ -37,8 +37,8 @@ android {
         applicationId = "com.nndwn.runtext"
         minSdk = 28
         targetSdk = 37
-        versionCode = 11
-        versionName = "1.4.1-beta"
+        versionCode = 12
+        versionName = "1.4.2-beta"
 
         val tipMe = "PURCHASE_ID_1"
 

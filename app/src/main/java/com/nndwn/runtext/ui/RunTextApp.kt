@@ -55,6 +55,7 @@ fun RunTextApp(
   var isSidebarOpen by remember { mutableStateOf(false) }
   var noticeMessage by remember { mutableStateOf<ToastData?>(null) }
   var showDialogSupport by remember { mutableStateOf(false) }
+  var showDialogReview by remember { mutableStateOf(false) }
   var pendingRoute by remember { mutableStateOf<AppRoute?>(null) }
 
   val navigationState = rememberNavigationState(
@@ -67,6 +68,23 @@ fun RunTextApp(
   val sidebarAllowed = isSidebarOpen && currentRoute != AppRoute.Display
   val isPlayStore = AppFlavor.current == AppFlavor.PLAYSTORE
 
+  // Automatically show/hide review & support dialogs in debug mode during live test scenarios
+  LaunchedEffect(shouldShowReviewPrompt, currentRoute) {
+    if (!shouldShowReviewPrompt) {
+      showDialogReview = false
+    } else if (currentRoute == AppRoute.Debug) {
+      showDialogReview = true
+    }
+  }
+
+  LaunchedEffect(shouldShowSupportDialog, hasTipped, currentRoute) {
+    if (!shouldShowSupportDialog || hasTipped) {
+      showDialogSupport = false
+    } else if (currentRoute == AppRoute.Debug) {
+      showDialogSupport = true
+    }
+  }
+
   // UI Effects handling
   LaunchedEffect(appViewModel.uiEffect, lifecycle) {
     appViewModel.uiEffect.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { effect ->
@@ -77,8 +95,7 @@ fun RunTextApp(
         is UiEffect.RequestNavigateBackWithSupportDialogCheck -> {
           navigator.goBack()
           if (isPlayStore && shouldShowReviewPrompt) {
-            launchInAppReview(context)
-            appViewModel.resetCooldownReviewPrompt()
+            showDialogReview = true
           } else if (shouldShowSupportDialog && !hasTipped) {
             showDialogSupport = true
           }
@@ -122,7 +139,12 @@ fun RunTextApp(
       },
       overlayContent = {
         OverlayScreen(
-          state = OverlayScreenState(showDialogSupport, noticeMessage, appPrice),
+          state = OverlayScreenState(
+            showDialogSupport = showDialogSupport,
+            showDialogReview = showDialogReview,
+            noticeMessage = noticeMessage,
+            appPrice = appPrice,
+          ),
           onDismissSupportDialog = {
             showDialogSupport = false
             pendingRoute?.let { route ->
@@ -135,6 +157,15 @@ fun RunTextApp(
             val activity = context as? Activity ?: return@OverlayScreen
             showDialogSupport = false
             appViewModel.onBuyApp(activity)
+          },
+          onDismissReviewDialog = {
+            showDialogReview = false
+            appViewModel.resetCooldownReviewPrompt()
+          },
+          onClickReviewApp = {
+            showDialogReview = false
+            launchInAppReview(context)
+            appViewModel.recordReviewCompleted()
           },
           onDismissNoticeMessage = { noticeMessage = null },
         )

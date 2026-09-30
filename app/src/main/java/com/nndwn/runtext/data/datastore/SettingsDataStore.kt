@@ -95,6 +95,10 @@ class SettingsDataStore @Inject constructor(
     deviceStatsDataStore.edit { preferences -> preferences[HAS_REQUESTED_REVIEW] = true }
   }
 
+  suspend fun recordReviewPromptDismissed() {
+    deviceStatsDataStore.edit { preferences -> preferences[ACCUMULATED_REVIEW_TIME_KEY] = 0L }
+  }
+
   suspend fun recordSupportDialogShownIfFirstTime() {
     deviceStatsDataStore.edit { preferences ->
       if (preferences[ACCUMULATED_USAGE_TIME_KEY] == null) {

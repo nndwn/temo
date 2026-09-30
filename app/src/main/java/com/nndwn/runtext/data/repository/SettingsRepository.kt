@@ -33,8 +33,12 @@ class SettingsRepository @Inject constructor(private val dataStore: SettingsData
     dataStore.recordSupportDialogShown()
   }
 
-  suspend fun resetCooldownReviewPrompt() {
+  suspend fun recordReviewCompleted() {
     dataStore.recordReviewPromptShown()
+  }
+
+  suspend fun resetCooldownReviewPrompt() {
+    dataStore.recordReviewPromptDismissed()
   }
 
   suspend fun initialCooldownSupportDialog() {

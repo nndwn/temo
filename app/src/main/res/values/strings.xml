@@ -47,6 +47,9 @@
     <string name="menu_debug">Debug Panel</string>
     <string name="buy_coffee">Buy Me a Coffee?</string>
     <string name="text_dialog_support">Enjoying the app? Supporting my work with a coffee tip helps keep the project alive!</string>
+    <string name="title_dialog_review">Enjoying %1$s?</string>
+    <string name="text_dialog_review">If you enjoy using %1$s, please take a moment to rate us on the Play Store. Your feedback helps us improve!</string>
+    <string name="btn_rate_app_now">Rate App Now</string>
     <string name="btn_text_remove_ad">Treat me to a coffee</string>
     <string name="btn_maybe_later">Maybe later</string>
     <string name="msg_has_support">Thank you for your support.</string>
