@@ -68,23 +68,6 @@ fun RunTextApp(
   val sidebarAllowed = isSidebarOpen && currentRoute != AppRoute.Display
   val isPlayStore = AppFlavor.current == AppFlavor.PLAYSTORE
 
-  // Automatically show/hide review & support dialogs in debug mode during live test scenarios
-  LaunchedEffect(shouldShowReviewPrompt, currentRoute) {
-    if (!shouldShowReviewPrompt) {
-      showDialogReview = false
-    } else if (currentRoute == AppRoute.Debug) {
-      showDialogReview = true
-    }
-  }
-
-  LaunchedEffect(shouldShowSupportDialog, hasTipped, currentRoute) {
-    if (!shouldShowSupportDialog || hasTipped) {
-      showDialogSupport = false
-    } else if (currentRoute == AppRoute.Debug) {
-      showDialogSupport = true
-    }
-  }
-
   // UI Effects handling
   LaunchedEffect(appViewModel.uiEffect, lifecycle) {
     appViewModel.uiEffect.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { effect ->
@@ -100,6 +83,8 @@ fun RunTextApp(
             showDialogSupport = true
           }
         }
+        is UiEffect.ShowDebugReviewDialog -> showDialogReview = effect.show
+        is UiEffect.ShowDebugSupportDialog -> showDialogSupport = effect.show
         is UiEffect.ShareVideo -> {
           val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "video/mp4"

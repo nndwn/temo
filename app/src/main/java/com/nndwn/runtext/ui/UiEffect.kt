@@ -19,4 +19,8 @@ sealed interface UiEffect {
   data object RequestNavigateBackWithSupportDialogCheck : UiEffect
 
   data class ShareVideo(val videoUri: Uri) : UiEffect
+
+  data class ShowDebugReviewDialog(val show: Boolean) : UiEffect
+
+  data class ShowDebugSupportDialog(val show: Boolean) : UiEffect
 }

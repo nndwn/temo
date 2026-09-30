@@ -1,6 +1,7 @@
 package com.nndwn.runtext.ui.features.debug.scenario
 
 import com.nndwn.runtext.data.datastore.SettingsDataStore
+import com.nndwn.runtext.ui.UiEffectController
 
 data class TestStepResult(
   val stepNumber: Int,
@@ -17,6 +18,7 @@ interface DebugScenario {
 
   suspend fun run(
     dataStore: SettingsDataStore,
+    uiEffectController: UiEffectController,
     onStepResult: (TestStepResult) -> Unit,
   )
 }

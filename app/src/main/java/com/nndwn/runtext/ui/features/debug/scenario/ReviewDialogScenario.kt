@@ -2,6 +2,8 @@ package com.nndwn.runtext.ui.features.debug.scenario
 
 import com.nndwn.runtext.AppFlavor
 import com.nndwn.runtext.data.datastore.SettingsDataStore
+import com.nndwn.runtext.ui.UiEffect
+import com.nndwn.runtext.ui.UiEffectController
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -14,10 +16,12 @@ class ReviewDialogScenario : DebugScenario {
 
   override suspend fun run(
     dataStore: SettingsDataStore,
+    uiEffectController: UiEffectController,
     onStepResult: (TestStepResult) -> Unit,
   ) {
     // Step 1: Initial Reset
     dataStore.reset()
+    uiEffectController.sendEffect(UiEffect.ShowDebugReviewDialog(false))
     delay(500.milliseconds)
     val initialReviewPrompt = dataStore.shouldShowReviewPrompt.first()
     val initialHasRequested = dataStore.hasRequestedReview.first()
@@ -38,6 +42,9 @@ class ReviewDialogScenario : DebugScenario {
     val isPlaystore = AppFlavor.current == AppFlavor.PLAYSTORE
     val reviewActive = dataStore.shouldShowReviewPrompt.first()
     val p2 = reviewActive == isPlaystore
+    if (p2) {
+      uiEffectController.sendEffect(UiEffect.ShowDebugReviewDialog(true))
+    }
     onStepResult(
       TestStepResult(
         stepNumber = 2,
@@ -51,6 +58,7 @@ class ReviewDialogScenario : DebugScenario {
 
     // Step 3: Simulate 'Lain Waktu' (Dismiss Dialog & Reset Cooldown)
     dataStore.recordReviewPromptDismissed()
+    uiEffectController.sendEffect(UiEffect.ShowDebugReviewDialog(false))
     delay(500.milliseconds)
     val afterDismissPrompt = dataStore.shouldShowReviewPrompt.first()
     val reviewTimeAfterDismiss = dataStore.accumulatedReviewTime.first()
@@ -72,6 +80,9 @@ class ReviewDialogScenario : DebugScenario {
     delay(500.milliseconds)
     val reviewActiveAgain = dataStore.shouldShowReviewPrompt.first()
     val p4 = reviewActiveAgain == isPlaystore
+    if (p4) {
+      uiEffectController.sendEffect(UiEffect.ShowDebugReviewDialog(true))
+    }
     onStepResult(
       TestStepResult(
         stepNumber = 4,
@@ -85,6 +96,7 @@ class ReviewDialogScenario : DebugScenario {
 
     // Step 5: Simulate 'Rate App Now' (Record Review Completed & Close Dialog)
     dataStore.recordReviewPromptShown()
+    uiEffectController.sendEffect(UiEffect.ShowDebugReviewDialog(false))
     delay(500.milliseconds)
     val hasRequestedFinal = dataStore.hasRequestedReview.first()
     val promptAfterRate = dataStore.shouldShowReviewPrompt.first()
@@ -102,6 +114,7 @@ class ReviewDialogScenario : DebugScenario {
 
     // Step 6: Verify Review Prompt Never Triggers Again
     dataStore.incrementUsageTime(3_600_000L)
+    uiEffectController.sendEffect(UiEffect.ShowDebugReviewDialog(false))
     delay(500.milliseconds)
     val promptBlocked = dataStore.shouldShowReviewPrompt.first()
     val p6 = !promptBlocked

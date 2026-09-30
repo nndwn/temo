@@ -3,9 +3,11 @@ package com.nndwn.runtext.ui.features.debug
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nndwn.runtext.data.datastore.SettingsDataStore
+import com.nndwn.runtext.ui.UiEffectController
 import com.nndwn.runtext.ui.features.debug.scenario.DebugScenario
 import com.nndwn.runtext.ui.features.debug.scenario.ReviewDialogScenario
 import com.nndwn.runtext.ui.features.debug.scenario.SupportDialogScenario
+import com.nndwn.runtext.ui.features.debug.scenario.TextConfigScenario
 import com.nndwn.runtext.ui.features.debug.scenario.TestStepResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,11 +18,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class DebugViewModel @Inject constructor(private val dataStore: SettingsDataStore) : ViewModel() {
+class DebugViewModel @Inject constructor(
+  private val dataStore: SettingsDataStore,
+  private val uiEffectController: UiEffectController,
+) : ViewModel() {
 
   val scenarios: List<DebugScenario> = listOf(
     ReviewDialogScenario(),
     SupportDialogScenario(),
+    TextConfigScenario(),
   )
 
   val hasTipped: StateFlow<Boolean> =
@@ -58,8 +64,8 @@ class DebugViewModel @Inject constructor(private val dataStore: SettingsDataStor
       _currentRunningScenarioId.value = scenario.id
       _testResults.value = emptyList()
 
-      scenario.run(dataStore) { result ->
-        _testResults.value = _testResults.value + result
+      scenario.run(dataStore, uiEffectController) { result ->
+          _testResults.value += result
       }
 
       _currentRunningScenarioId.value = null
