@@ -44,7 +44,7 @@ jobs:
           path: app/build/reports/tests/
 
   build-and-draft:
-    name: Build Release & Create Draft Release
+    name: Build Check & Create Draft Release
     if: github.event_name != 'pull_request'
     needs: unit-tests
     runs-on: ubuntu-latest
@@ -70,6 +70,9 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
+      - name: Verify Build Variants (Foss & Playstore)
+        run: ./gradlew assembleFossDebug assemblePlaystoreDebug --stacktrace
+
       - name: Generate Changelog Payload
         run: ./gradlew generateChangelog --stacktrace
 
@@ -91,33 +94,6 @@ jobs:
           jq -r '.releaseNotes' "$CHANGELOG_JSON_FILE" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Build Release APKs
-        run: ./gradlew assembleFossRelease assemblePlaystoreRelease --stacktrace
-
-      - name: Sign Foss Release APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_foss_app
-        with:
-          releaseDirectory: app/build/outputs/apk/foss/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Sign Playstore Release APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_playstore_app
-        with:
-          releaseDirectory: app/build/outputs/apk/playstore/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
       - name: Remove Old Release Drafts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -133,12 +109,9 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           name: "${{ env.APP_NAME }} v${{ env.VERSION_NAME }}"
           body: |
-            ## 🚀 ${{ env.APP_NAME }} Release v${{ env.VERSION_NAME }} (Code: ${{ env.VERSION_CODE }})
+            ## 🚀 ${{ env.APP_NAME }} Draft Release v${{ env.VERSION_NAME }} (Code: ${{ env.VERSION_CODE }})
 
             ### 📝 Release Notes
             ${{ env.RELEASE_NOTES }}
-          files: |
-            ${{ steps.sign_foss_app.outputs.signedReleaseFile }}
-            ${{ steps.sign_playstore_app.outputs.signedReleaseFile }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
