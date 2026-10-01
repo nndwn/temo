@@ -1,0 +1,144 @@
+name: Android Build & Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Run Unit Tests
+        run: ./gradlew testPlaystoreDebugUnitTest testFossDebugUnitTest --stacktrace
+
+      - name: Upload Test Results on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-reports
+          path: app/build/reports/tests/
+
+  build-and-draft:
+    name: Build Release & Create Draft Release
+    if: github.event_name != 'pull_request'
+    needs: unit-tests
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: true
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Generate Changelog Payload
+        run: ./gradlew generateChangelog --stacktrace
+
+      - name: Parse Changelog Metadata
+        id: parse_changelog
+        run: |
+          CHANGELOG_JSON_FILE="app/build/reports/changelog/changelog.json"
+
+          VERSION_NAME=$(jq -r '.metadata.versionName' "$CHANGELOG_JSON_FILE")
+          VERSION_CODE=$(jq -r '.metadata.versionCode' "$CHANGELOG_JSON_FILE")
+          APP_NAME=$(jq -r '.metadata.appName' "$CHANGELOG_JSON_FILE")
+
+          echo "TAG_NAME=v${VERSION_NAME}" >> $GITHUB_ENV
+          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
+          echo "VERSION_CODE=${VERSION_CODE}" >> $GITHUB_ENV
+          echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
+
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          jq -r '.releaseNotes' "$CHANGELOG_JSON_FILE" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Build Release APKs
+        run: ./gradlew assembleFossRelease assemblePlaystoreRelease --stacktrace
+
+      - name: Sign Foss Release APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_foss_app
+        with:
+          releaseDirectory: app/build/outputs/apk/foss/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Sign Playstore Release APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_playstore_app
+        with:
+          releaseDirectory: app/build/outputs/apk/playstore/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Remove Old Release Drafts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/${{ github.repository }}/releases \
+            --jq '.[] | select(.draft == true) | .id' \
+            | xargs -r -I '{}' gh api -X DELETE repos/${{ github.repository }}/releases/{}
+
+      - name: Create GitHub Draft Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          tag_name: ${{ env.TAG_NAME }}
+          name: "${{ env.APP_NAME }} v${{ env.VERSION_NAME }}"
+          body: |
+            ## 🚀 ${{ env.APP_NAME }} Release v${{ env.VERSION_NAME }} (Code: ${{ env.VERSION_CODE }})
+
+            ### 📝 Release Notes
+            ${{ env.RELEASE_NOTES }}
+          files: |
+            ${{ steps.sign_foss_app.outputs.signedReleaseFile }}
+            ${{ steps.sign_playstore_app.outputs.signedReleaseFile }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -9,6 +9,7 @@ plugins {
 
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.play.publisher)
+    id("io.github.nndwn.changelog-publish") version "0.2.3"
 }
 
 val localProperties = Properties().apply {
@@ -85,7 +86,6 @@ android {
     }
 
 }
-
 
 
 play {
