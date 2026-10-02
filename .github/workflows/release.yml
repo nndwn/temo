@@ -57,25 +57,35 @@ jobs:
           echo "Resolved release tag: $TAG"
 
       # Secret Variable:
-      # - PLAY_SERVICE_ACCOUNT_BASE64: Base64 text of the downloaded Google Play Service Account JSON key
-      #   file - NOT the raw JSON and NOT a file path. Create it with:
-      #     Linux : base64 -w 0 play-service-account.json
-      #     macOS : base64 -i play-service-account.json | tr -d '\n'
-      #   Newlines inside the JSON (e.g. the escaped \n of "private_key") survive base64 round-tripping
-      #   byte-for-byte, so they are never the cause of a decode failure.
+      # - PLAY_SERVICE_ACCOUNT_BASE64: Google Play service account key. Either form is accepted:
+      #     a) base64 text of the key file  ->  base64 -w 0 play-service-account.json
+      #     b) the raw JSON key itself
+      #   A file *path* can never work - Google Play Publisher parses the resulting bytes as JSON.
+      #   Newlines inside the JSON (e.g. the escaped \n of "private_key") are harmless: they survive
+      #   base64 round-tripping byte-for-byte.
       - name: Setup Google Play Service Account Credentials
+        env:
+          CREDENTIALS_SECRET: ${{ secrets.PLAY_SERVICE_ACCOUNT_BASE64 }}
         run: |
-          if ! printf '%s' "${{ secrets.PLAY_SERVICE_ACCOUNT_BASE64 }}" | base64 -d > play-service-account.json 2>/dev/null; then
-            echo "::error::Secret PLAY_SERVICE_ACCOUNT_BASE64 is not valid base64 (or is empty)."
-            echo "::error::Expected base64 text of the Play service account JSON key file."
+          # Drop CR so a Windows-generated or CRLF-pasted secret still decodes.
+          printf '%s' "$CREDENTIALS_SECRET" | tr -d '\r' > "$RUNNER_TEMP/credentials.secret"
+
+          if python3 -c "import json; json.load(open('$RUNNER_TEMP/credentials.secret'))" 2>/dev/null; then
+            # The secret already contains the JSON key.
+            cp "$RUNNER_TEMP/credentials.secret" play-service-account.json
+          elif base64 -d "$RUNNER_TEMP/credentials.secret" > play-service-account.json 2>/dev/null; then
+            # The secret contains base64 text of the JSON key.
+            :
+          else
+            echo "::error::Secret PLAY_SERVICE_ACCOUNT_BASE64 is neither the raw JSON key nor valid base64 of it."
+            echo "::error::Generate it with: base64 -w 0 <downloaded-key>.json"
             exit 1
           fi
+          rm -f "$RUNNER_TEMP/credentials.secret"
 
           if ! python3 -c "import json, sys; sys.exit(0 if json.load(open('play-service-account.json')).get('type') == 'service_account' else 1)" 2>/dev/null; then
-            echo "::error::Secret PLAY_SERVICE_ACCOUNT_BASE64 did not decode to a service account JSON key."
+            echo "::error::Credentials did not resolve to a service account JSON key."
             echo "::error::Decoded $(wc -c < play-service-account.json) byte(s), first character: '$(head -c 1 play-service-account.json)'."
-            echo "::error::Recreate it with: base64 -w 0 <downloaded-key>.json"
-            echo "::error::Google Play Publisher parses these bytes directly as JSON, so a path or the raw JSON cannot work."
             exit 1
           fi
 
