@@ -2,6 +2,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
+
+## [1.4.5] - 2026-10-02
 - fix issue ui
 
 ## [1.4.2-beta] - 2026-10-01
