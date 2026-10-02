@@ -1,1 +1,1 @@
-Create glowing LED running text & send flashlight Morse code signals easily.
+Create text animation and share your social media

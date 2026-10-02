@@ -33,7 +33,7 @@ import javax.inject.Singleton
 class BillingManager @Inject constructor(@param:ApplicationContext private val context: Context) :
   PurchasesUpdatedListener, BillingHelper {
   private companion object {
-    const val SUPPORT_PRODUCT_ID = BuildConfig.PURCHASE_ID_1
+    const val SUPPORT_PRODUCT_ID = "remove_ads_permanent"
   }
 
   private val scope = CoroutineScope(Dispatchers.Main)

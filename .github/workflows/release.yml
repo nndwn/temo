@@ -1,0 +1,138 @@
+name: Android Release & Publish Workflow
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+# Never cancel a release half-way: an interrupted Google Play upload is worse than waiting.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  release-and-publish:
+    name: Build, Sign, Publish to Google Play & Update Changelog
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Build the exact commit that was released. For manual `workflow_dispatch` runs there is
+          # no released tag, so fall back to the ref the workflow was dispatched from.
+          ref: ${{ github.event.release.tag_name || github.ref }}
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # The tag is needed by the GitHub Release upload and the changelog PR:
+      # - `release` event: reuse the tag that was just published.
+      # - `workflow_dispatch`: no tag exists, so derive it from the app version using the same
+      #   `v<versionName>` convention build.yml uses for the draft release.
+      - name: Resolve Release Tag
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+
+          if [ -z "$TAG" ]; then
+            ./gradlew generateChangelog --stacktrace
+            TAG="v$(jq -r '.metadata.versionName' app/build/reports/changelog/changelog.json)"
+          fi
+
+          echo "RELEASE_TAG=$TAG" >> "$GITHUB_ENV"
+          echo "Resolved release tag: $TAG"
+
+      # Secret Variable:
+      # - PLAY_SERVICE_ACCOUNT_BASE64: Base64-encoded string of the Google Play Service Account JSON credentials file.
+      - name: Setup Google Play Service Account Credentials
+        run: |
+          echo "${{ secrets.PLAY_SERVICE_ACCOUNT_BASE64 }}" | base64 -d > play-service-account.json
+          echo "PLAY_SERVICE_ACCOUNT_FILE=$(pwd)/play-service-account.json" >> $GITHUB_ENV
+
+      # Secret Variables:
+      # - KEYSTORE_BASE64: Release Keystore file (.jks) encoded as Base64 string.
+      # - ALIAS: Key alias stored within the Keystore.
+      # - KEY_STORE_PASSWORD: Password for the Keystore.
+      # - KEY_PASSWORD: Password for the specific Key Alias.
+      #
+      # IMPORTANT: Signing is done by Gradle itself so that BOTH the APKs and the AAB are signed
+      # with the release key (Google Play rejects a debug-signed App Bundle).
+      # `signingConfigs.release` in app/build.gradle.kts reads `local.properties`, which is
+      # git-ignored, so it is never picked up by the create-pull-request step below.
+      - name: Setup Release Signing (Keystore & local.properties)
+        run: |
+          if [ -z "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "::error::Secret KEYSTORE_BASE64 is empty; release artifacts cannot be signed."
+            exit 1
+          fi
+
+          KEYSTORE_PATH="$RUNNER_TEMP/release.keystore"
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > "$KEYSTORE_PATH"
+
+          {
+            echo "KEY_FILE=$KEYSTORE_PATH"
+            echo "KEYSTORE_PASSWORD=${{ secrets.KEY_STORE_PASSWORD }}"
+            echo "KEY_ALIAS=${{ secrets.ALIAS }}"
+            echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}"
+          } >> local.properties
+
+      - name: Generate Google Play Release Notes
+        run: ./gradlew generatePlayReleaseNotes --stacktrace
+
+      - name: Build Release App Bundles & APKs
+        run: ./gradlew bundleFossRelease bundlePlaystoreRelease assembleFossRelease assemblePlaystoreRelease --stacktrace
+
+      # Promote the changelog BEFORE publishing: a broken/skipped CHANGELOG.md then fails the job
+      # while nothing irreversible has happened yet. The edit only reaches the repository through
+      # the create-pull-request step at the very end, so any later failure discards it automatically.
+      - name: Promote Unreleased Changelog
+        run: ./gradlew releaseChangelog --stacktrace
+
+      # PLAY_SERVICE_ACCOUNT_FILE is already exported to $GITHUB_ENV by the credentials step above,
+      # so it is inherited here without re-declaring it.
+      - name: Publish Playstore Flavor to Google Play Store
+        run: ./gradlew publishPlaystoreReleaseBundle --stacktrace
+
+      # Upload Files & Tokens:
+      # - files: Gradle writes flavored artifacts into flavor-specific directories
+      #   (`apk/<flavor>/<buildType>/` and `bundle/<flavor><BuildType>/`), and the
+      #   changelog-publish plugin RENAMES every artifact, so globs are used instead of exact names.
+      # - GITHUB_TOKEN: Automatic authentication token provided by GitHub Actions.
+      - name: Upload Signed APKs & Bundles to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: |
+            app/build/outputs/apk/foss/release/*.apk
+            app/build/outputs/apk/playstore/release/*.apk
+            app/build/outputs/bundle/playstoreRelease/*.aab
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request for Updated CHANGELOG.md
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(release): promote release in CHANGELOG.md [${{ env.RELEASE_TAG }}]"
+          title: "chore(release): update CHANGELOG.md for ${{ env.RELEASE_TAG }}"
+          body: |
+            Automated PR generated after successful release and Google Play Store publishing for **${{ env.RELEASE_TAG }}**.
+            
+            This PR contains the updated `CHANGELOG.md` file promoted by `./gradlew releaseChangelog`.
+          branch: "release/changelog-update-${{ env.RELEASE_TAG }}"
+          base: "main"
+          delete-branch: true

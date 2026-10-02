@@ -1,1 +1,1 @@
-RunText: LED Board & Morse
+Temo: text motion screen

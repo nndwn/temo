@@ -17,3 +17,4 @@ local.properties
 .idea
 /app/release/
 /play-service-account.json
+/app/src/*Release/play/

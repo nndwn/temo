@@ -9,7 +9,7 @@ plugins {
 
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.play.publisher)
-    id("io.github.nndwn.changelog-publish") version "0.2.4"
+    id("io.github.nndwn.changelog-publish") version "0.3.0"
 }
 
 val localProperties = Properties().apply {
@@ -38,13 +38,10 @@ android {
         applicationId = "com.nndwn.runtext"
         minSdk = 28
         targetSdk = 37
-        versionCode = 12
-        versionName = "1.4.2-beta"
-
-        val tipMe = "PURCHASE_ID_1"
+        versionCode = 13
+        versionName = "1.4.3-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", tipMe, "\"${localProperties.getProperty(tipMe) ?: ""}\"")
     }
 
     
