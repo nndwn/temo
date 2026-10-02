@@ -38,8 +38,8 @@ android {
         applicationId = "com.nndwn.runtext"
         minSdk = 28
         targetSdk = 37
-        versionCode = 13
-        versionName = "1.4.3-beta"
+        versionCode = 14
+        versionName = "1.4.4-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
