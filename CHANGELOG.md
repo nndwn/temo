@@ -2,6 +2,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
+
+## [1.4.7] - 2026-10-02
 - fix issue UI
 - remove ads
 - add 3 font Korea
