@@ -38,8 +38,8 @@ android {
         applicationId = "com.nndwn.runtext"
         minSdk = 28
         targetSdk = 37
-        versionCode = 14
-        versionName = "1.4.4-beta"
+        versionCode = 15
+        versionName = "1.4.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -107,7 +107,9 @@ play {
         }
     }
 
-    track.set("internal")
+    // Upload straight to the production track (GPP's own default is `internal`).
+    // Every release MUST bump `versionCode` above - Play rejects a version code that was ever used.
+    track.set("production")
     defaultToAppBundles.set(true)
 }
 
