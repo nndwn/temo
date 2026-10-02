@@ -9,7 +9,7 @@ plugins {
 
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.play.publisher)
-    id("io.github.nndwn.changelog-publish") version "0.3.0"
+    id("io.github.nndwn.changelog-publish") version "0.3.1"
 }
 
 val localProperties = Properties().apply {
@@ -38,8 +38,8 @@ android {
         applicationId = "com.nndwn.runtext"
         minSdk = 28
         targetSdk = 37
-        versionCode = 15
-        versionName = "1.4.5"
+        versionCode = 16
+        versionName = "1.4.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

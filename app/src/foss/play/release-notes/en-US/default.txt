@@ -1,0 +1,6 @@
+- fix issue ui
+- remove ads
+- add 3 Korea fonts
+- add 1 preset
+- add download and share feature
+- optimize performance

@@ -15,9 +15,9 @@
 - [x] ⏫ add 3 google fonts #feature #v1.4.1-beta #development 🛫 2026-09-24 04:58 ✅ 2026-09-24 05:02 🆔 JL8ah1
 
 - [x] 🔺 Remove ads Admobs #issue #production #v1.4.1-beta 🆔 12JQDX
-- [ ] 🔼 fix CI workflows GitHub because use build tool version old #development #v1.4.2-beta 🆔 ygnpkX
-- [/] 🔼 integration CI triple T before upload F-droid for get metadata from Google Play Store and automation release #development #v1.4.2-beta 🛫 2026-10-02 03:54 🆔 MJYdaS
-- [ ] 🔼 integration f-droid #development #v1.4.2-beta 🆔 wBCI3F
+- [x] 🔼 fix CI workflows GitHub because use build tool version old #development #v1.4.2-beta 🛫 2026-10-02 15:59 ✅ 2026-10-02 15:59 🆔 ygnpkX
+- [x] 🔼 integration CI triple T before upload F-droid for get metadata from Google Play Store and automation release #development #v1.4.2-beta 🛫 2026-10-02 03:54 ✅ 2026-10-02 15:59 🆔 MJYdaS
+- [/] 🔼 integration f-droid #development #v1.4.2-beta 🛫 2026-10-02 15:59 🆔 wBCI3F
 - [x] 🔺 change record show dialog support for duration start #v1.4.1-beta #development #feature 🛫 2026-09-22 19:57 ✅ 2026-09-23 07:36 🆔 U2Daoc
 - [x] 🔼 mungkin perlu penambahan effect blink ? #feature #v1.4.1-beta #development 🛫 2026-09-19 04:58 ✅ 2026-09-23 02:12 ➕ 2026-09-15 22:39 🆔 c9OpU4
 - [x] 🔽 apa perlu animasi running dapat di matikan ? #feature #v1.4.1-beta 🛫 2026-09-23 19:03 ✅ 2026-09-24 04:19 ➕ 2026-09-15 22:44 🆔 JAze93

@@ -2,6 +2,13 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
+- fix issue UI
+- remove ads
+- add 3 font Korea
+- add 1 presets
+- add feature download and share
+- change name dan metadata
+- optimize performance
 
 ## [1.4.5] - 2026-10-02
 - fix issue ui

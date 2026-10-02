@@ -1,0 +1,54 @@
+# F-Droid build metadata for Temo (com.nndwn.runtext)
+#
+# This file is a TEMPLATE kept at the root of the app repo for convenience.
+# To submit the app, copy it verbatim to a fork of the fdroiddata repo as:
+#     fdroiddata/metadata/com.nndwn.runtext.yml
+#
+# Reference: https://f-droid.org/docs/Build_Metadata_Reference/
+#
+# NOTE: Name / Summary / Description are deliberately omitted here. F-Droid prefers the
+# localized Triple-T metadata that ships inside the app source, which for this project is:
+#     app/src/foss/play/listings/en-US/{title,short-description,full-description}.txt
+#     app/src/foss/play/contact-email.txt, contact-website.txt
+#     app/src/foss/play/release-notes/en-US/default.txt
+#     app/src/foss/play/listings/en-US/graphics/**
+# Adding them here would override all of that.
+
+Categories:
+  - Graphics
+  - Multimedia
+
+License: MIT
+AuthorName: nndwn
+AuthorEmail: dailyhopeless.dev@gmail.com
+AuthorWebSite: https://nndwn.github.io
+
+SourceCode: https://github.com/nndwn/temo
+IssueTracker: https://github.com/nndwn/temo/issues
+Changelog: https://github.com/nndwn/temo/blob/main/CHANGELOG.md
+
+# Fallback name, only used for `fdroid checkupdates` commit messages.
+AutoName: Temo
+
+RepoType: git
+Repo: https://github.com/nndwn/temo.git
+
+Builds:
+  - versionName: 1.4.5
+    versionCode: 15
+    # Must be the full commit hash, never a branch or tag name.
+    commit: 42a5b60a61fe645d695d45ed7116ce9161c2931b
+    # Gradle build runs from the `app/` module.
+    subdir: app
+    # `foss` flavor -> fdroidserver runs `assembleFossRelease`.
+    # This is also what makes F-Droid pick up app/src/foss/play/ as the Triple-T metadata.
+    gradle:
+      - foss
+    # The playstore flavor is never built by F-Droid, so drop its sources entirely.
+    rm:
+      - app/src/playstore
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 1.4.5
+CurrentVersionCode: 15
