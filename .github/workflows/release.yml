@@ -57,11 +57,29 @@ jobs:
           echo "Resolved release tag: $TAG"
 
       # Secret Variable:
-      # - PLAY_SERVICE_ACCOUNT_BASE64: Base64-encoded string of the Google Play Service Account JSON credentials file.
+      # - PLAY_SERVICE_ACCOUNT_BASE64: Base64 text of the downloaded Google Play Service Account JSON key
+      #   file - NOT the raw JSON and NOT a file path. Create it with:
+      #     Linux : base64 -w 0 play-service-account.json
+      #     macOS : base64 -i play-service-account.json | tr -d '\n'
+      #   Newlines inside the JSON (e.g. the escaped \n of "private_key") survive base64 round-tripping
+      #   byte-for-byte, so they are never the cause of a decode failure.
       - name: Setup Google Play Service Account Credentials
         run: |
-          echo "${{ secrets.PLAY_SERVICE_ACCOUNT_BASE64 }}" | base64 -d > play-service-account.json
-          echo "PLAY_SERVICE_ACCOUNT_FILE=$(pwd)/play-service-account.json" >> $GITHUB_ENV
+          if ! printf '%s' "${{ secrets.PLAY_SERVICE_ACCOUNT_BASE64 }}" | base64 -d > play-service-account.json 2>/dev/null; then
+            echo "::error::Secret PLAY_SERVICE_ACCOUNT_BASE64 is not valid base64 (or is empty)."
+            echo "::error::Expected base64 text of the Play service account JSON key file."
+            exit 1
+          fi
+
+          if ! python3 -c "import json, sys; sys.exit(0 if json.load(open('play-service-account.json')).get('type') == 'service_account' else 1)" 2>/dev/null; then
+            echo "::error::Secret PLAY_SERVICE_ACCOUNT_BASE64 did not decode to a service account JSON key."
+            echo "::error::Decoded $(wc -c < play-service-account.json) byte(s), first character: '$(head -c 1 play-service-account.json)'."
+            echo "::error::Recreate it with: base64 -w 0 <downloaded-key>.json"
+            echo "::error::Google Play Publisher parses these bytes directly as JSON, so a path or the raw JSON cannot work."
+            exit 1
+          fi
+
+          echo "PLAY_SERVICE_ACCOUNT_FILE=$(pwd)/play-service-account.json" >> "$GITHUB_ENV"
 
       # Secret Variables:
       # - KEYSTORE_BASE64: Release Keystore file (.jks) encoded as Base64 string.
