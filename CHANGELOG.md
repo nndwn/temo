@@ -2,6 +2,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
+- change name dan metadata
+- optimize performance
 
 ## [1.4.7] - 2026-10-02
 - fix issue UI
