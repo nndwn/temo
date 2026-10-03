@@ -9,7 +9,7 @@ plugins {
 
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.play.publisher)
-    id("io.github.nndwn.changelog-publish") version "0.3.1"
+    id("io.github.nndwn.changelog-publish") version "0.3.2"
 }
 
 val localProperties = Properties().apply {

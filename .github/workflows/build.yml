@@ -90,11 +90,22 @@ jobs:
           echo "VERSION_CODE=${VERSION_CODE}" >> $GITHUB_ENV
           echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
 
+          # An empty '## [Unreleased]' (typical right after a release was promoted) means there is
+          # nothing new to draft. Flag it instead of failing, so the draft-release steps below are
+          # skipped with a warning rather than producing an empty draft.
+          if jq -e '.releaseNotes | gsub("[[:space:]]";"") | length > 0' "$CHANGELOG_JSON_FILE" > /dev/null; then
+            echo "HAS_NOTES=true" >> $GITHUB_ENV
+          else
+            echo "HAS_NOTES=false" >> $GITHUB_ENV
+            echo "::warning title=Empty changelog::'## [Unreleased]' in CHANGELOG.md is empty - skipping the draft release for v${VERSION_NAME}."
+          fi
+
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
           jq -r '.releaseNotes' "$CHANGELOG_JSON_FILE" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: Remove Old Release Drafts
+        if: env.HAS_NOTES == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -103,6 +114,7 @@ jobs:
             | xargs -r -I '{}' gh api -X DELETE repos/${{ github.repository }}/releases/{}
 
       - name: Create GitHub Draft Release
+        if: env.HAS_NOTES == 'true'
         uses: softprops/action-gh-release@v2
         with:
           draft: true

@@ -1,1 +1,3 @@
-text animation with feature editor you can use fonts style with your own style and share give in your social media
+Temo turns your text into motion on screen. Create running and blinking text, style it with custom fonts, colors, gradients, outlines and shadows, then share the animation to your social media as an MP4 video.
+
+Temo also includes presets, Google Fonts support and a Morse code mode that transmits your text as light, sound and vibration.

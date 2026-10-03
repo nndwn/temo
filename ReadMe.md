@@ -5,7 +5,7 @@
   <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="240"/>
 </a>
 
-RunTxt was created as a long-distance communication tool without the need for an internet connection. Instead of shouting as loud as possible, it is better to show text or Morse code on the phone screen.
+Temo is an app for creating running and blinking text that can be fully customized with various styles. It can be displayed on screen, and the animated text can be shared to social media in MP4 format. Morse code is included as an additional feature.
 
 ## Common
 * **Preview** Displays the configured text or Morse code.
@@ -17,7 +17,7 @@ RunTxt was created as a long-distance communication tool without the need for an
   <img src="/raw/sc1.png" alt="running text" width="895">
 </p>
 
-An animation test that can run on the phone screen dan hasil desain desain text tersebut dapat dibagikan ke sosial media dengan format mp4 , text sendiri memiliki batasan hanya 40 character termasuk spasi.
+An animation that can run on the phone screen, and the resulting text design can be shared to social media in MP4 format. The text itself is limited to 40 characters, including spaces.
 * **Aware Text Direction** Sometimes text can be written from left-to-right and right-to-left; the running text will adjust accordingly.
 * **Presets** A collection of pre-configured settings, so you don't have to worry about creating text designs—just use what's already available.
 * **Speed** Text speed settings with a maximum of 500 px/s and a minimum of 50 px/s.
