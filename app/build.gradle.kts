@@ -64,6 +64,13 @@ android {
             optimization {
                 enable = true
             }
+            // Keep the Play-only "Dependency metadata" APK Signing Block (ID 0x504B4453) out of the APK.
+            // `fdroid scanner` flags it as "Found extra signing block", which fails F-Droid's `check apk`
+            // job and therefore blocks reproducible builds for this app. The app bundle keeps its
+            // default (`includeInBundle` stays true), so Play still receives the metadata.
+            dependenciesInfo {
+                includeInApk = false
+            }
             val releaseConfig = signingConfigs.getByName("release")
             signingConfig = if (releaseConfig.storeFile?.exists() == true) {
                 releaseConfig
