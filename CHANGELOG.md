@@ -2,6 +2,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
+
+## [1.4.8] - 2026-10-03
 - change name dan metadata
 - optimize performance
 
