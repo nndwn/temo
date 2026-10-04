@@ -27,9 +27,23 @@ class FontRepository @Inject constructor(@ApplicationContext private val context
   private fun loadFonts() {
     try {
       val jsonString = context.resources.openRawResource(R.raw.fonts).bufferedReader().use { it.readText() }
-      _fonts.value = json.decodeFromString<List<FontData>>(jsonString)
+      val allFonts = json.decodeFromString<List<FontData>>(jsonString)
+      val gmsAvailable = isGmsFontProviderAvailable(context)
+      _fonts.value = if (gmsAvailable) {
+        allFonts
+      } else {
+        allFonts.filter { !it.localResName.isNullOrEmpty() }
+      }
     } catch (e: Exception) {
       e.printStackTrace()
+    }
+  }
+
+  private fun isGmsFontProviderAvailable(context: Context): Boolean {
+    return try {
+      context.packageManager.resolveContentProvider("com.google.android.gms.fonts", 0) != null
+    } catch (_: Exception) {
+      false
     }
   }
 

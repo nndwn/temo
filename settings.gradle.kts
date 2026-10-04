@@ -25,4 +25,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "runtext"
 include(":app")
- 
+include(":getgooglefont-compressit")

@@ -1,6 +1,8 @@
 package com.nndwn.runtext.helper
 
 import android.app.Activity
+import android.content.Intent
+import androidx.core.net.toUri
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -17,6 +19,7 @@ class StubBillingHelper : BillingHelper {
   }
 
   override fun launchBillingFlow(activity: Activity) {
-    // No-op in FOSS
+    val intent = Intent(Intent.ACTION_VIEW, "https://buymeacoffee.com/nndwn".toUri())
+    activity.startActivity(intent)
   }
 }

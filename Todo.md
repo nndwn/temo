@@ -17,7 +17,7 @@
 - [x] 🔺 Remove ads Admobs #issue #production #v1.4.1-beta 🆔 12JQDX
 - [x] 🔼 fix CI workflows GitHub because use build tool version old #development #v1.4.2-beta 🛫 2026-10-02 15:59 ✅ 2026-10-02 15:59 🆔 ygnpkX
 - [x] 🔼 integration CI triple T before upload F-droid for get metadata from Google Play Store and automation release #development #v1.4.2-beta 🛫 2026-10-02 03:54 ✅ 2026-10-02 15:59 🆔 MJYdaS
-- [/] 🔼 integration f-droid #development #v1.4.2-beta 🛫 2026-10-02 15:59 🆔 wBCI3F
+- [x] 🔼 integration f-droid #development #v1.4.2-beta 🛫 2026-10-02 15:59 ✅ 2026-10-03 15:56 🆔 wBCI3F
 - [x] 🔺 change record show dialog support for duration start #v1.4.1-beta #development #feature 🛫 2026-09-22 19:57 ✅ 2026-09-23 07:36 🆔 U2Daoc
 - [x] 🔼 mungkin perlu penambahan effect blink ? #feature #v1.4.1-beta #development 🛫 2026-09-19 04:58 ✅ 2026-09-23 02:12 ➕ 2026-09-15 22:39 🆔 c9OpU4
 - [x] 🔽 apa perlu animasi running dapat di matikan ? #feature #v1.4.1-beta 🛫 2026-09-23 19:03 ✅ 2026-09-24 04:19 ➕ 2026-09-15 22:44 🆔 JAze93
@@ -42,3 +42,7 @@
 - [-] ⏫ apa perlu menambahkan google anality untuk variant Playstore ? #v1.4.1-beta #development #feature , jika iya tapi apa saja perlu di analisis? 🛫 2026-09-26 08:03 ❌ 2026-09-26 15:08 ➕ 2026-09-26 07:30 📝 2026-09-26 07:33 🆔 znPnuE // tidak perlu report lebih baik lakukan secara survei
 - [-] test dd dd dd ❌ 2026-09-30 05:58 ➕ 2026-09-30 04:51 📝 2026-09-30 05:57 🆔 rf9aaP // test test
 - [x] 🔺 #issue di review bisa saja waktu pop up support akan sama dengan waktu tampil review selain itu di review kenapa langsung munncul sdk review seharus nya berikan user pilihan review atau tidak #production #v1.4.2-beta 🛫 2026-10-01 03:06 ✅ 2026-10-02 03:40 ➕ 2026-10-01 00:17 🆔 7eKVwX
+- [/] ⏫ F-droid memiliki masalah font yang tidak dapat didownload karena mengunakan google services #issue #development 🛫 2026-10-04 12:04 ➕ 2026-10-04 12:02 🆔 AuRufk // - pertama task untuk mendownload semua fonts
+- [ ] ⏫ membuat modul untuk task download font #v1.4.4 #development #feature ➕ 2026-10-04 19:20 🆔 BaYypB
+- [x] ⏫ #issue seharusn untuk modul sendiri input dan output nya di pisah #development #v1.4.4 🛫 2026-10-04 19:32 ✅ 2026-10-04 21:46 ➕ 2026-10-04 19:21 🆔 d4Px8s
+- [/] ⏫ #issue bagaimana caranya deteksi font nya tersebut bisa support di bahasa lainnya aku rasa yang di download ini semua latin semua ku perlu test #v1.4.4 #development 🛫 2026-10-04 21:47 ➕ 2026-10-04 19:23 🆔 VcZ1rQ

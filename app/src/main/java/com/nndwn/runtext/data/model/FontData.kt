@@ -22,4 +22,5 @@ data class FontData(
   val scriptCategory: ScriptCategory,
   val localResName: String? = null,
   val googleFontName: String? = null,
+  val designer: String? = null,
 )

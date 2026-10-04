@@ -1,344 +1,424 @@
 [
-  {
-    "idFont": "ROBOTO",
-    "displayName": "Roboto",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Roboto"
-  },
-  {
-    "idFont": "OPEN_SANS",
-    "displayName": "Open Sans",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Open Sans"
-  },
-  {
-    "idFont": "LATO",
-    "displayName": "Lato",
-    "scriptCategory": "LATIN",
-    "localResName": "lato_bold"
-  },
-  {
-    "idFont": "MONTSERRAT",
-    "displayName": "Montserrat",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Montserrat"
-  },
-  {
-    "idFont": "POPPINS",
-    "displayName": "Poppins",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Poppins"
-  },
-  {
-    "idFont": "INTER",
-    "displayName": "Inter",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Inter"
-  },
-  {
-    "idFont": "OSWALD",
-    "displayName": "Oswald",
-    "scriptCategory": "LATIN",
-    "localResName": "oswald_regular"
-  },
-  {
-    "idFont": "RALEWAY",
-    "displayName": "Raleway",
-    "scriptCategory": "LATIN",
-    "localResName": "raleway_medium"
-  },
-  {
-    "idFont": "QUICKSAND",
-    "displayName": "Quicksand",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Quicksand"
-  },
-  {
-    "idFont": "NUNITO",
-    "displayName": "Nunito",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Nunito"
-  },
-  {
-    "idFont": "ABRIL_FATFACE",
-    "displayName": "Abril Fatface",
-    "scriptCategory": "LATIN",
-    "localResName": "abrilfatface_regular"
-  },
-  {
-    "idFont": "ANTON",
-    "displayName": "Anton",
-    "scriptCategory": "LATIN",
-    "localResName": "anton_regular"
-  },
-  {
-    "idFont": "BEBAS_NEUE",
-    "displayName": "Bebas Neue",
-    "scriptCategory": "LATIN",
-    "localResName": "bebasneue_regular"
-  },
-  {
-    "idFont": "ARCHIVO_BLACK",
-    "displayName": "Archivo Black",
-    "scriptCategory": "LATIN",
-    "localResName": "archivoblack_regular"
-  },
-  {
-    "idFont": "RIGHTEOUS",
-    "displayName": "Righteous",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Righteous"
-  },
-  {
-    "idFont": "LOBSTER",
-    "displayName": "Lobster",
-    "scriptCategory": "LATIN",
-    "localResName": "lobster_regular"
-  },
-  {
-    "idFont": "PACIFICO",
-    "displayName": "Pacifico",
-    "scriptCategory": "LATIN",
-    "localResName": "pacifico_regular"
-  },
-  {
-    "idFont": "PERMANENT_MARKER",
-    "displayName": "Permanent Marker",
-    "scriptCategory": "LATIN",
-    "localResName": "permanentmarker_regular"
-  },
-  {
-    "idFont": "PLAYFAIR_DISPLAY",
-    "displayName": "Playfair Display",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Playfair Display"
-  },
-  {
-    "idFont": "SHARE_TECH_MONO",
-    "displayName": "Share Tech Mono",
-    "scriptCategory": "LATIN",
-    "localResName": "sharetechmono_regular"
-  },
-  {
-    "idFont": "CREEPSTER",
-    "displayName": "Creepster",
-    "scriptCategory": "LATIN",
-    "localResName": "creepster_regular"
-  },
-  {
-    "idFont": "PRESS_START_2P",
-    "displayName": "Press Start 2P",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Press Start 2P"
-  },
-  {
-    "idFont": "SILKSCREEN",
-    "displayName": "Silkscreen",
-    "scriptCategory": "LATIN",
-    "localResName": "silkscreen_regular"
-  },
-  {
-    "idFont": "VT323",
-    "displayName": "VT323",
-    "scriptCategory": "LATIN",
-    "googleFontName": "VT323"
-  },
-  {
-    "idFont": "COURIER_PRIME",
-    "displayName": "Courier Prime",
-    "scriptCategory": "LATIN",
-    "localResName": "courierprime_regular"
-  },
-  {
-    "idFont": "BANGERS",
-    "displayName": "Bangers",
-    "scriptCategory": "LATIN",
-    "localResName": "bangers_regular"
-  },
-  {
-    "idFont": "ORBITRON",
-    "displayName": "Orbitron",
-    "scriptCategory": "LATIN",
-    "localResName": "orbitron_medium"
-  },
-  {
-    "idFont": "COMFORTAA",
-    "displayName": "Comfortaa",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Comfortaa"
-  },
-  {
-    "idFont": "PATRICK_HAND",
-    "displayName": "Patrick Hand",
-    "scriptCategory": "LATIN",
-    "localResName": "patrickhand_regular"
-  },
-  {
-    "idFont": "SATISFY",
-    "displayName": "Satisfy",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Satisfy"
-  },
-  {
-    "idFont": "KAUSHAN_SCRIPT",
-    "displayName": "Kaushan Script",
-    "scriptCategory": "LATIN",
-    "localResName": "kaushanscript_regular"
-  },
-  {
-    "idFont": "YELLOWTAIL",
-    "displayName": "Yellowtail",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Yellowtail"
-  },
-  {
-    "idFont": "COURGETTE",
-    "displayName": "Courgette",
-    "scriptCategory": "LATIN",
-    "localResName": "courgette_regular"
-  },
-  {
-    "idFont": "DANCING_SCRIPT",
-    "displayName": "Dancing Script",
-    "scriptCategory": "LATIN",
-    "googleFontName": "Dancing Script"
-  },
-  {
-    "idFont": "GREAT_VIBES",
-    "displayName": "Great Vibes",
-    "scriptCategory": "LATIN",
-    "localResName": "greatvibes_regular"
-  },
-  {
-    "idFont": "SACRAMENTO",
-    "displayName": "Sacramento",
-    "scriptCategory": "LATIN",
-    "localResName": "sacramento_regular"
-  },
-  {
-    "idFont": "DELA_GOTHIC_ONE",
-    "displayName": "Dela Gothic One (日本語)",
-    "scriptCategory": "JAPANESE",
-    "googleFontName": "Dela Gothic One"
-  },
-  {
-    "idFont": "KOSUGI_MARU",
-    "displayName": "Kosugi Maru (小杉丸ゴシック)",
-    "scriptCategory": "JAPANESE",
-    "googleFontName": "Kosugi Maru"
-  },
-  {
-    "idFont": "CHERRY_BOMB_ONE",
-    "displayName": "Cherry Bomb One",
-    "scriptCategory": "JAPANESE",
-    "googleFontName": "Cherry Bomb One"
-  },
-  {
-    "idFont": "DOT_GOTHIC",
-    "displayName": "DotGothic16",
-    "scriptCategory": "JAPANESE",
-    "localResName": "dotgothic16_regular"
-  },
-  {
-    "idFont": "BLACK_HAN_SANS",
-    "displayName": "Black Han Sans (한국어)",
-    "scriptCategory": "KOREAN",
-    "googleFontName": "Black Han Sans"
-  },
-  {
-    "idFont": "JUA",
-    "displayName": "Jua (주아)",
-    "scriptCategory": "KOREAN",
-    "googleFontName": "Jua"
-  },
-  {
-    "idFont": "DO_HYEON",
-    "displayName": "Do Hyeon (도현)",
-    "scriptCategory": "KOREAN",
-    "googleFontName": "Do Hyeon"
-  },
-  {
-    "idFont": "NANUM_GOTHIC",
-    "displayName": "Nanum Gothic (나눔고딕)",
-    "scriptCategory": "KOREAN",
-    "googleFontName": "Nanum Gothic"
-  },
-  {
-    "idFont": "ZCOOL_KUAILE",
-    "displayName": "ZCOOL KuaiLe (简体中文)",
-    "scriptCategory": "CHINESE",
-    "googleFontName": "ZCOOL KuaiLe"
-  },
-  {
-    "idFont": "ZCOOL_XIAOWEI",
-    "displayName": "ZCOOL XiaoWei (站酷小薇体)",
-    "scriptCategory": "CHINESE",
-    "googleFontName": "ZCOOL XiaoWei"
-  },
-  {
-    "idFont": "MA_SHAN_ZHENG",
-    "displayName": "Ma Shan Zheng (马善政毛笔楷书)",
-    "scriptCategory": "CHINESE",
-    "googleFontName": "Ma Shan Zheng"
-  },
-  {
-    "idFont": "LALEZAR",
-    "displayName": "Lalezar (العربية)",
-    "scriptCategory": "ARABIC",
-    "googleFontName": "Lalezar"
-  },
-  {
-    "idFont": "REEM_KUFI",
-    "displayName": "Reem Kufi (العربية)",
-    "scriptCategory": "ARABIC",
-    "googleFontName": "Reem Kufi"
-  },
-  {
-    "idFont": "CAIRO",
-    "displayName": "Cairo (القاهرة)",
-    "scriptCategory": "ARABIC",
-    "googleFontName": "Cairo"
-  },
-  {
-    "idFont": "ALMARAI",
-    "displayName": "Almarai (المراعي)",
-    "scriptCategory": "ARABIC",
-    "googleFontName": "Almarai"
-  },
-  {
-    "idFont": "KALAM",
-    "displayName": "Kalam (हिन्दी)",
-    "scriptCategory": "DEVANAGARI",
-    "googleFontName": "Kalam"
-  },
-  {
-    "idFont": "RAJDHANI",
-    "displayName": "Rajdhani (हिन्दी)",
-    "scriptCategory": "DEVANAGARI",
-    "googleFontName": "Rajdhani"
-  },
-  {
-    "idFont": "MODAK",
-    "displayName": "Modak (िन्दी)",
-    "scriptCategory": "DEVANAGARI",
-    "googleFontName": "Modak"
-  },
-  {
-    "idFont": "ITIM",
-    "displayName": "Itim (ไทย)",
-    "scriptCategory": "THAI",
-    "googleFontName": "Itim"
-  },
-  {
-    "idFont": "ANKOR",
-    "displayName": "Ankor (សួស្តី)",
-    "scriptCategory": "KHMER",
-    "googleFontName": "Ankor"
-  },
-  {
-    "idFont": "FREDOKA",
-    "displayName": "Fredoka",
-    "scriptCategory": "HEBREW",
-    "localResName": "fredoka"
-  }
+    {
+        "idFont": "ROBOTO",
+        "displayName": "Roboto",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Roboto",
+        "designer": "Christian Robertson"
+    },
+    {
+        "idFont": "OPEN_SANS",
+        "displayName": "Open Sans",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Open Sans",
+        "designer": "Steve Matteson"
+    },
+    {
+        "idFont": "LATO",
+        "displayName": "Lato",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Lato",
+        "localResName": "lato_bold",
+        "designer": "Łukasz Dziedzic"
+    },
+    {
+        "idFont": "MONTSERRAT",
+        "displayName": "Montserrat",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Montserrat",
+        "designer": "Julieta Ulanovsky"
+    },
+    {
+        "idFont": "POPPINS",
+        "displayName": "Poppins",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Poppins",
+        "designer": "Indian Type Foundry"
+    },
+    {
+        "idFont": "INTER",
+        "displayName": "Inter",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Inter",
+        "designer": "Rasmus Andersson"
+    },
+    {
+        "idFont": "OSWALD",
+        "displayName": "Oswald",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Oswald",
+        "localResName": "oswald_regular",
+        "designer": "Vernon Adams"
+    },
+    {
+        "idFont": "RALEWAY",
+        "displayName": "Raleway",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Raleway",
+        "localResName": "raleway_medium",
+        "designer": "Matt McInerney"
+    },
+    {
+        "idFont": "QUICKSAND",
+        "displayName": "Quicksand",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Quicksand",
+        "designer": "Andrew Paglinawan"
+    },
+    {
+        "idFont": "NUNITO",
+        "displayName": "Nunito",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Nunito",
+        "designer": "Vernon Adams"
+    },
+    {
+        "idFont": "ABRIL_FATFACE",
+        "displayName": "Abril Fatface",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Abril Fatface",
+        "localResName": "abrilfatface_regular",
+        "designer": "TypeTogether"
+    },
+    {
+        "idFont": "ANTON",
+        "displayName": "Anton",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Anton",
+        "localResName": "anton_regular",
+        "designer": "Vernon Adams"
+    },
+    {
+        "idFont": "BEBAS_NEUE",
+        "displayName": "Bebas Neue",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Bebas Neue",
+        "localResName": "bebasneue_regular",
+        "designer": "Ryoichi Tsunekawa"
+    },
+    {
+        "idFont": "ARCHIVO_BLACK",
+        "displayName": "Archivo Black",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Archivo Black",
+        "localResName": "archivoblack_regular",
+        "designer": "Omnibus-Type"
+    },
+    {
+        "idFont": "RIGHTEOUS",
+        "displayName": "Righteous",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Righteous",
+        "designer": "Astigmatic"
+    },
+    {
+        "idFont": "LOBSTER",
+        "displayName": "Lobster",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Lobster",
+        "localResName": "lobster_regular",
+        "designer": "Impallari Type"
+    },
+    {
+        "idFont": "PACIFICO",
+        "displayName": "Pacifico",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Pacifico",
+        "localResName": "pacifico_regular",
+        "designer": "Vernon Adams"
+    },
+    {
+        "idFont": "PERMANENT_MARKER",
+        "displayName": "Permanent Marker",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Permanent Marker",
+        "localResName": "permanentmarker_regular",
+        "designer": "Font Diner"
+    },
+    {
+        "idFont": "PLAYFAIR_DISPLAY",
+        "displayName": "Playfair Display",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Playfair Display",
+        "designer": "Claus Eggers Sørensen"
+    },
+    {
+        "idFont": "SHARE_TECH_MONO",
+        "displayName": "Share Tech Mono",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Share Tech Mono",
+        "localResName": "sharetechmono_regular",
+        "designer": "Carrois Apostrophe"
+    },
+    {
+        "idFont": "CREEPSTER",
+        "displayName": "Creepster",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Creepster",
+        "localResName": "creepster_regular",
+        "designer": "Sideshow"
+    },
+    {
+        "idFont": "PRESS_START_2P",
+        "displayName": "Press Start 2P",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Press Start 2P",
+        "designer": "CodeMan38"
+    },
+    {
+        "idFont": "SILKSCREEN",
+        "displayName": "Silkscreen",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Silkscreen",
+        "localResName": "silkscreen_regular",
+        "designer": "Jason Kottke"
+    },
+    {
+        "idFont": "VT323",
+        "displayName": "VT323",
+        "scriptCategory": "LATIN",
+        "googleFontName": "VT323",
+        "designer": "Peter Hull"
+    },
+    {
+        "idFont": "COURIER_PRIME",
+        "displayName": "Courier Prime",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Courier Prime",
+        "localResName": "courierprime_regular",
+        "designer": "Alan Dague-Greene"
+    },
+    {
+        "idFont": "BANGERS",
+        "displayName": "Bangers",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Bangers",
+        "localResName": "bangers_regular",
+        "designer": "Vernon Adams"
+    },
+    {
+        "idFont": "ORBITRON",
+        "displayName": "Orbitron",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Orbitron",
+        "localResName": "orbitron_medium",
+        "designer": "Matt McInerney"
+    },
+    {
+        "idFont": "COMFORTAA",
+        "displayName": "Comfortaa",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Comfortaa",
+        "designer": "Johan Aakerlund"
+    },
+    {
+        "idFont": "PATRICK_HAND",
+        "displayName": "Patrick Hand",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Patrick Hand",
+        "localResName": "patrickhand_regular",
+        "designer": "Patrick Wagesreiter"
+    },
+    {
+        "idFont": "SATISFY",
+        "displayName": "Satisfy",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Satisfy",
+        "designer": "Sideshow"
+    },
+    {
+        "idFont": "KAUSHAN_SCRIPT",
+        "displayName": "Kaushan Script",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Kaushan Script",
+        "localResName": "kaushanscript_regular",
+        "designer": "Impallari Type"
+    },
+    {
+        "idFont": "YELLOWTAIL",
+        "displayName": "Yellowtail",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Yellowtail",
+        "designer": "Astigmatic"
+    },
+    {
+        "idFont": "COURGETTE",
+        "displayName": "Courgette",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Courgette",
+        "localResName": "courgette_regular",
+        "designer": "Karolina Lach"
+    },
+    {
+        "idFont": "DANCING_SCRIPT",
+        "displayName": "Dancing Script",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Dancing Script",
+        "designer": "Impallari Type"
+    },
+    {
+        "idFont": "GREAT_VIBES",
+        "displayName": "Great Vibes",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Great Vibes",
+        "localResName": "greatvibes_regular",
+        "designer": "Robert Leuschke"
+    },
+    {
+        "idFont": "SACRAMENTO",
+        "displayName": "Sacramento",
+        "scriptCategory": "LATIN",
+        "googleFontName": "Sacramento",
+        "localResName": "sacramento_regular",
+        "designer": "Astigmatic"
+    },
+    {
+        "idFont": "DELA_GOTHIC_ONE",
+        "displayName": "Dela Gothic One",
+        "scriptCategory": "JAPANESE",
+        "googleFontName": "Dela Gothic One",
+        "designer": "artakana"
+    },
+    {
+        "idFont": "KOSUGI_MARU",
+        "displayName": "Kosugi Maru",
+        "scriptCategory": "JAPANESE",
+        "googleFontName": "Kosugi Maru",
+        "designer": "MOTOYA"
+    },
+    {
+        "idFont": "CHERRY_BOMB_ONE",
+        "displayName": "Cherry Bomb One",
+        "scriptCategory": "JAPANESE",
+        "googleFontName": "Cherry Bomb One",
+        "designer": "Satsuyako"
+    },
+    {
+        "idFont": "DOT_GOTHIC",
+        "displayName": "DotGothic16",
+        "scriptCategory": "JAPANESE",
+        "googleFontName": "DotGothic16",
+        "localResName": "dotgothic16_regular",
+        "designer": "Fontworks Inc."
+    },
+    {
+        "idFont": "BLACK_HAN_SANS",
+        "displayName": "Black Han Sans",
+        "scriptCategory": "KOREAN",
+        "googleFontName": "Black Han Sans",
+        "designer": "Zess Type"
+    },
+    {
+        "idFont": "JUA",
+        "displayName": "Jua",
+        "scriptCategory": "KOREAN",
+        "googleFontName": "Jua",
+        "designer": "Woowahan Brothers"
+    },
+    {
+        "idFont": "DO_HYEON",
+        "displayName": "Do Hyeon",
+        "scriptCategory": "KOREAN",
+        "googleFontName": "Do Hyeon",
+        "designer": "Woowahan Brothers"
+    },
+    {
+        "idFont": "NANUM_GOTHIC",
+        "displayName": "Nanum Gothic",
+        "scriptCategory": "KOREAN",
+        "googleFontName": "Nanum Gothic",
+        "designer": "Sandoll Communication"
+    },
+    {
+        "idFont": "ZCOOL_KUAI_LE",
+        "displayName": "ZCOOL KuaiLe",
+        "scriptCategory": "CHINESE",
+        "googleFontName": "ZCOOL KuaiLe",
+        "designer": "Liu Bingke"
+    },
+    {
+        "idFont": "ZCOOL_XIAO_WEI",
+        "displayName": "ZCOOL XiaoWei",
+        "scriptCategory": "CHINESE",
+        "googleFontName": "ZCOOL XiaoWei",
+        "designer": "Li Dawei"
+    },
+    {
+        "idFont": "MA_SHAN_ZHENG",
+        "displayName": "Ma Shan Zheng",
+        "scriptCategory": "CHINESE",
+        "googleFontName": "Ma Shan Zheng",
+        "designer": "Ma ShanZheng"
+    },
+    {
+        "idFont": "LALEZAR",
+        "displayName": "Lalezar",
+        "scriptCategory": "ARABIC",
+        "googleFontName": "Lalezar",
+        "designer": "Borna Izadpanah"
+    },
+    {
+        "idFont": "REEM_KUFI",
+        "displayName": "Reem Kufi",
+        "scriptCategory": "ARABIC",
+        "googleFontName": "Reem Kufi",
+        "designer": "Khaled Hosny"
+    },
+    {
+        "idFont": "CAIRO",
+        "displayName": "Cairo",
+        "scriptCategory": "ARABIC",
+        "googleFontName": "Cairo",
+        "designer": "Mohamed Gaber"
+    },
+    {
+        "idFont": "ALMARAI",
+        "displayName": "Almarai",
+        "scriptCategory": "ARABIC",
+        "googleFontName": "Almarai",
+        "designer": "Boutros Fonts"
+    },
+    {
+        "idFont": "KALAM",
+        "displayName": "Kalam",
+        "scriptCategory": "DEVANAGARI",
+        "googleFontName": "Kalam",
+        "designer": "Indian Type Foundry"
+    },
+    {
+        "idFont": "RAJDHANI",
+        "displayName": "Rajdhani",
+        "scriptCategory": "DEVANAGARI",
+        "googleFontName": "Rajdhani",
+        "designer": "Indian Type Foundry"
+    },
+    {
+        "idFont": "MODAK",
+        "displayName": "Modak",
+        "scriptCategory": "DEVANAGARI",
+        "googleFontName": "Modak",
+        "designer": "Ek Type"
+    },
+    {
+        "idFont": "ITIM",
+        "displayName": "Itim",
+        "scriptCategory": "THAI",
+        "googleFontName": "Itim",
+        "designer": "Cadson Demak"
+    },
+    {
+        "idFont": "ANGKOR",
+        "displayName": "Angkor",
+        "scriptCategory": "KHMER",
+        "googleFontName": "Angkor",
+        "designer": "Danh Hong"
+    },
+    {
+        "idFont": "FREDOKA",
+        "displayName": "Fredoka",
+        "scriptCategory": "HEBREW",
+        "googleFontName": "Fredoka",
+        "localResName": "fredoka",
+        "designer": "Milena Brandão"
+    }
 ]
