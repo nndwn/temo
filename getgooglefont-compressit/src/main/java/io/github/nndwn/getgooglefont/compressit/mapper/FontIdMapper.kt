@@ -5,8 +5,8 @@ import java.io.File
 object FontIdMapper {
 
     /**
-     * Mengkonversi nama font (mis. "Open Sans", "Dela Gothic One", "DotGothic16")
-     * menjadi idFont dengan format UPPER_SNAKE_CASE (mis. "OPEN_SANS", "DELA_GOTHIC_ONE").
+     * Converts a font family name (e.g. "Open Sans", "Dela Gothic One", "DotGothic16")
+     * into an idFont in UPPER_SNAKE_CASE format (e.g. "OPEN_SANS", "DELA_GOTHIC_ONE").
      */
     fun toIdFont(fontName: String): String {
         val customMap = mapOf(
@@ -22,9 +22,9 @@ object FontIdMapper {
     }
 
     /**
-     * Mencari nama resource font lokal di `app/src/main/res/font/` jika ada.
+     * Finds matching local font resource name in `app/src/main/res/font/` if present.
      *
-     * Contoh: "Bebas Neue" -> "bebasneue_regular", "Lato" -> "lato_bold".
+     * Example: "Bebas Neue" -> "bebasneue_regular", "Lato" -> "lato_bold".
      */
     fun findLocalResName(fontName: String, fontFolder: File): String? {
         if (!fontFolder.exists() || !fontFolder.isDirectory) return null

@@ -4,7 +4,7 @@ import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
 
-/** Perkakas HTTP sederhana yang dipakai bersama oleh fetcher di modul ini. */
+/** Simple shared HTTP utility used by fetchers in this module. */
 object HttpFetcher {
 
     const val DESKTOP_USER_AGENT =

@@ -43,6 +43,7 @@
 - [-] test dd dd dd ❌ 2026-09-30 05:58 ➕ 2026-09-30 04:51 📝 2026-09-30 05:57 🆔 rf9aaP // test test
 - [x] 🔺 #issue di review bisa saja waktu pop up support akan sama dengan waktu tampil review selain itu di review kenapa langsung munncul sdk review seharus nya berikan user pilihan review atau tidak #production #v1.4.2-beta 🛫 2026-10-01 03:06 ✅ 2026-10-02 03:40 ➕ 2026-10-01 00:17 🆔 7eKVwX
 - [/] ⏫ F-droid memiliki masalah font yang tidak dapat didownload karena mengunakan google services #issue #development 🛫 2026-10-04 12:04 ➕ 2026-10-04 12:02 🆔 AuRufk // - pertama task untuk mendownload semua fonts
-- [ ] ⏫ membuat modul untuk task download font #v1.4.4 #development #feature ➕ 2026-10-04 19:20 🆔 BaYypB
-- [x] ⏫ #issue seharusn untuk modul sendiri input dan output nya di pisah #development #v1.4.4 🛫 2026-10-04 19:32 ✅ 2026-10-04 21:46 ➕ 2026-10-04 19:21 🆔 d4Px8s
-- [/] ⏫ #issue bagaimana caranya deteksi font nya tersebut bisa support di bahasa lainnya aku rasa yang di download ini semua latin semua ku perlu test #v1.4.4 #development 🛫 2026-10-04 21:47 ➕ 2026-10-04 19:23 🆔 VcZ1rQ
+- [ ] ⏫ membuat modul untuk task download font #v1.4.9 #development #feature ➕ 2026-10-04 19:20 🆔 BaYypB
+- [x] ⏫ #issue seharusn untuk modul sendiri input dan output nya di pisah #development #v1.4.9 🛫 2026-10-04 19:32 ✅ 2026-10-04 21:46 ➕ 2026-10-04 19:21 🆔 d4Px8s
+- [x] ⏫ #issue bagaimana caranya deteksi font nya tersebut bisa support di bahasa lainnya aku rasa yang di download ini semua latin semua ku perlu test #v1.4.9 #development 🛫 2026-10-04 21:47 ✅ 2026-10-05 00:24 ➕ 2026-10-04 19:23 🆔 VcZ1rQ
+- [ ] ⏫ untuk method apakah bisa menerapkan metode lzma ? #development #feature #v1.4.9 ➕ 2026-10-04 22:33 🆔 vhaSVL

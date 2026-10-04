@@ -1,12 +1,7 @@
 # Fonts Input List
 
-Daftar nama **family resmi Google Fonts** (sumber: `https://fonts.google.com/metadata/fonts`),
-diambil dari setiap `idFont` pada [fonts.json](app/src/main/res/raw/fonts.json).
-
-Semua nama di bawah sudah diverifikasi **ada persis 1×** di katalog Google Fonts,
-sehingga siap dipakai sebagai inputan task (mis. `:getgooglefont-compressit:compressFonts`).
-
-## Latin
+Daftar nama **family resmi Google Fonts** sebagai inputan task `:getgooglefont-compressit:compressFonts`.
+Script category (seperti Latin, Japanese, Korean, Arabic, dll.) akan dideteksi secara otomatis dari metadata resmi Google Fonts.
 
 - Roboto
 - Open Sans
@@ -44,48 +39,24 @@ sehingga siap dipakai sebagai inputan task (mis. `:getgooglefont-compressit:comp
 - Dancing Script
 - Great Vibes
 - Sacramento
-
-## Japanese
-
 - Dela Gothic One
 - Kosugi Maru
 - Cherry Bomb One
 - DotGothic16
-
-## Korean
-
 - Black Han Sans
 - Jua
 - Do Hyeon
 - Nanum Gothic
-
-## Chinese
-
 - ZCOOL KuaiLe
 - ZCOOL XiaoWei
 - Ma Shan Zheng
-
-## Arabic
-
 - Lalezar
 - Reem Kufi
 - Cairo
 - Almarai
-
-## Devanagari
-
 - Kalam
 - Rajdhani
 - Modak
-
-## Thai
-
 - Itim
-
-## Khmer
-
 - Angkor
-
-## Hebrew
-
 - Fredoka

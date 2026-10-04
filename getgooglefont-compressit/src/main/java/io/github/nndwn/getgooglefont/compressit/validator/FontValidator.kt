@@ -1,13 +1,13 @@
 package io.github.nndwn.getgooglefont.compressit.validator
 
-/** Satu nama font yang tidak ditemukan di katalog Google Fonts. */
+/** Represents a font name that was not found in the Google Fonts catalog. */
 data class InvalidFont(val input: String, val suggestion: String?)
 
 /**
- * Hasil validasi daftar nama font.
+ * Result of validating a list of font names.
  *
- * [valid] berisi nama **kanonik** (kapitalisasi resmi Google Fonts) dengan urutan
- * yang sama seperti input, sehingga bisa dipetakan balik per index.
+ * [valid] contains canonical names (official Google Fonts capitalization) in the same
+ * order as the input, allowing 1:1 mapping by index.
  */
 data class ValidationReport(
     val valid: List<String>,
@@ -16,14 +16,14 @@ data class ValidationReport(
     val isValid: Boolean get() = invalid.isEmpty()
 
     fun toMessage(): String {
-        if (isValid) return "Validasi berhasil: ${valid.size} nama font semuanya ada di Google Fonts."
+        if (isValid) return "Validation succeeded: all ${valid.size} font names exist in Google Fonts."
 
         return buildString {
-            appendLine("Validasi GAGAL: ${invalid.size} nama font tidak ditemukan di katalog Google Fonts:")
+            appendLine("Validation FAILED: ${invalid.size} font name(s) not found in Google Fonts catalog:")
             invalid.forEach { font ->
                 append("  - \"${font.input}\"")
                 if (font.suggestion != null) {
-                    append("  ->  maksudnya \"${font.suggestion}\"?")
+                    append("  ->  did you mean \"${font.suggestion}\"?")
                 }
                 appendLine()
             }
@@ -32,11 +32,11 @@ data class ValidationReport(
 }
 
 /**
- * Memvalidasi nama family font terhadap daftar family resmi Google Fonts.
+ * Validates font family names against the official Google Fonts catalog.
  *
- * Pencocokan bersifat toleran: huruf besar/kecil, spasi, underscore, dan tanda hubung
- * diabaikan (`open_sans` == `Open Sans` == `opensans`). Nama yang cocok selalu
- * dikembalikan dalam ejaan resmi katalog.
+ * Matching is lenient: case, spaces, underscores, and hyphens are ignored
+ * (`open_sans` == `Open Sans` == `opensans`). Matched names are always returned
+ * in their official catalog spelling.
  */
 class FontValidator(availableFamilies: Collection<String>) {
 
@@ -45,7 +45,7 @@ class FontValidator(availableFamilies: Collection<String>) {
 
     private val canonicalFamilies: List<String> = availableFamilies.toList()
 
-    /** Ejaan resmi dari [name], atau `null` bila tidak ada di katalog. */
+    /** Official spelling of [name], or `null` if not present in catalog. */
     fun canonicalOf(name: String): String? = canonicalByKey[normalize(name)]
 
     fun validate(names: List<String>): ValidationReport {
@@ -63,7 +63,7 @@ class FontValidator(availableFamilies: Collection<String>) {
         return ValidationReport(valid = valid, invalid = invalid)
     }
 
-    /** Saran nama terdekat, atau `null` bila tidak ada yang cukup mirip. */
+    /** Nearest suggested name, or `null` if no close match is found. */
     fun suggest(name: String): String? {
         val target = normalize(name)
         if (target.isEmpty()) return null
@@ -86,10 +86,10 @@ class FontValidator(availableFamilies: Collection<String>) {
     companion object {
         private const val MAX_SUGGESTION_DISTANCE = 3
 
-        /** Kunci pencocokan: huruf kecil tanpa spasi/underscore/tanda hubung. */
+        /** Matching key: lowercase alphanumeric characters only. */
         fun normalize(raw: String): String = raw.lowercase().filter { it.isLetterOrDigit() }
 
-        /** Levenshtein dengan batas [max]; hasil > [max] boleh tidak akurat. */
+        /** Levenshtein distance bounded by [max]; results > [max] may be approximate. */
         fun levenshtein(a: String, b: String, max: Int): Int {
             if (a == b) return 0
             if (a.isEmpty()) return b.length

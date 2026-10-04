@@ -122,6 +122,9 @@ Requires an Android device running **Android 9 (API 28)** or newer.
 #### Useful commands
 
 ```shell
+# Download missing fonts, fetch designer metadata, compress to raw/compressed_fonts.zip, and generate raw/fonts.json from fonts.md
+./gradlew :getgooglefont-compressit:compressFonts
+
 # Reset the app data on a connected device
 adb shell pm clear com.nndwn.runtext
 

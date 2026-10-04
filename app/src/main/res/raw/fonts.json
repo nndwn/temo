@@ -9,7 +9,7 @@
     {
         "idFont": "OPEN_SANS",
         "displayName": "Open Sans",
-        "scriptCategory": "LATIN",
+        "scriptCategory": "HEBREW",
         "googleFontName": "Open Sans",
         "designer": "Steve Matteson"
     },
@@ -31,7 +31,7 @@
     {
         "idFont": "POPPINS",
         "displayName": "Poppins",
-        "scriptCategory": "LATIN",
+        "scriptCategory": "DEVANAGARI",
         "googleFontName": "Poppins",
         "designer": "Indian Type Foundry"
     },

@@ -1,5 +1,6 @@
 package io.github.nndwn.getgooglefont.compressit.catalog
 
+import io.github.nndwn.getgooglefont.compressit.model.ScriptCategory
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -54,6 +55,15 @@ class GoogleFontsCatalogTest {
         assertEquals("Christian Robertson, ParaType", designers["Roboto"])
         assertEquals("Danh Hong", designers["Angkor"])
         assertEquals("Liu Bingke, Yang Kang, Wu Shaojie", designers["ZCOOL KuaiLe"])
+    }
+
+    @Test
+    fun `parseScriptCategories mendeteksi ScriptCategory dari subsets`() {
+        val scripts = catalog.parseScriptCategories(sampleMetadata)
+
+        assertEquals(ScriptCategory.LATIN, scripts["Roboto"])
+        assertEquals(ScriptCategory.KHMER, scripts["Angkor"])
+        assertEquals(ScriptCategory.CHINESE, scripts["ZCOOL KuaiLe"])
     }
 
     @Test

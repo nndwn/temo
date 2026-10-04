@@ -60,7 +60,7 @@ class FontValidatorTest {
     fun `pesan laporan menyebut nama salah dan saran`() {
         val message = validator.validate(listOf("Ankor")).toMessage()
 
-        assertTrue(message.contains("Validasi GAGAL"))
+        assertTrue(message.contains("Validation FAILED"))
         assertTrue(message.contains("Ankor"))
         assertTrue(message.contains("Angkor"))
     }

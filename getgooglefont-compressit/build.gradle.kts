@@ -25,6 +25,12 @@ tasks.register<JavaExec>("compressFonts") {
     description = "Downloads missing Google Fonts, fetches designer info, creates compressed_fonts.zip, and updates fonts.json"
     mainClass.set("io.github.nndwn.getgooglefont.compressit.MainKt")
     classpath = sourceSets["main"].runtimeClasspath
+
+    val inputMdFile = file("${rootDir}/fonts.md")
+    val rawOutputDir = file("${rootDir}/app/src/main/res/raw")
+    val localFontDir = file("${rootDir}/app/src/main/res/font")
+
+    args(inputMdFile.absolutePath, rawOutputDir.absolutePath, localFontDir.absolutePath)
 }
 
 

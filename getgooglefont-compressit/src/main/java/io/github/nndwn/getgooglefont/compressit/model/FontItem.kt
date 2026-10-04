@@ -13,10 +13,10 @@ data class FontItem(
 )
 
 /**
- * Nama family yang dipakai untuk lookup/unduh di Google Fonts.
+ * Returns the family name used for looking up and downloading from Google Fonts.
  *
- * Dipakai `googleFontName` bila ada; kalau tidak, ambil dari [displayName] tanpa
- * keterangan script di dalam tanda kurung (mis. `"Dela Gothic One (日本語)"` -> `"Dela Gothic One"`).
+ * Prefers [googleFontName] if present; otherwise strips script annotations in parentheses
+ * from [displayName] (e.g. `"Dela Gothic One (日本語)"` -> `"Dela Gothic One"`).
  */
 fun FontItem.resolvedFamilyName(): String {
     val googleName = googleFontName?.trim()

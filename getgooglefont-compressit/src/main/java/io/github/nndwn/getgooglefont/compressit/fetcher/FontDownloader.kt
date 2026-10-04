@@ -21,10 +21,10 @@ class FontDownloader {
     }
 
     /**
-     * Mengambil URL file font dari CSS Google Fonts.
+     * Extracts font file URL from Google Fonts CSS response.
      *
-     * Prioritas `.ttf` / `.otf` (paling aman untuk `Typeface` Android), baru `.woff2`
-     * sebagai pilihan terakhir.
+     * Prefers `.ttf` / `.otf` (most compatible with Android `Typeface`),
+     * fallback to `.woff2` as last resort.
      */
     fun extractTtfUrlFromCss(cssContent: String): String? {
         val urls = FONT_URL_REGEX.findAll(cssContent).map { it.groupValues[2] }.toList()

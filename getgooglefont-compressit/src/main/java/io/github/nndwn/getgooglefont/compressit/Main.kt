@@ -6,24 +6,30 @@ import io.github.nndwn.getgooglefont.compressit.fetcher.DesignerFetcher
 import io.github.nndwn.getgooglefont.compressit.fetcher.FontDownloader
 import io.github.nndwn.getgooglefont.compressit.mapper.FontIdMapper
 import io.github.nndwn.getgooglefont.compressit.model.FontItem
+import io.github.nndwn.getgooglefont.compressit.model.ScriptCategory
 import io.github.nndwn.getgooglefont.compressit.parser.FontsMdParser
 import io.github.nndwn.getgooglefont.compressit.parser.ParsedFontSpec
 import io.github.nndwn.getgooglefont.compressit.validator.FontValidator
 import java.io.File
 import kotlin.system.exitProcess
 
-fun main() {
+fun main(args: Array<String>) {
     println("=== Starting Google Font Downloader & Compressor Task ===")
 
-    var projectRootDir = File(".").canonicalFile
-    if (projectRootDir.name == "getgooglefont-compressit") {
-        projectRootDir = projectRootDir.parentFile
+    if (args.size < 2) {
+        println("Error: Missing required arguments.")
+        println("Usage: MainKt <inputMdFilePath> <rawOutputDirPath> [localFontDirPath]")
+        exitProcess(1)
     }
 
-    val inputMdFile = File(projectRootDir, "fonts.md")
-    val rawFolder = File(projectRootDir, "app/src/main/res/raw")
-    val fontFolder = File(projectRootDir, "app/src/main/res/font")
+    val inputMdFile = File(args[0])
+    val rawFolder = File(args[1])
+    val fontFolder = if (args.size > 2) File(args[2]) else File(rawFolder.parentFile, "font")
     val outputJsonFile = File(rawFolder, "fonts.json")
+
+    println("Input MD file: ${inputMdFile.absolutePath}")
+    println("Output RAW dir: ${rawFolder.absolutePath}")
+    println("Local FONT dir: ${fontFolder.absolutePath}")
 
     if (!inputMdFile.exists()) {
         println("Error: Input file fonts.md not found at ${inputMdFile.absolutePath}")
@@ -39,15 +45,18 @@ fun main() {
     println("Input fonts.md loaded: ${fontSpecs.size} font entries found.")
 
     // ------------------------------------------------------------------
-    // STEP 1 - VALIDATION.
-    // No files are downloaded before all font names are verified to exist
-    // in the official Google Fonts catalog.
+    // STEP 1 - VALIDATION & CATALOG FETCHING.
+    // Verifies all font names against the Google Fonts catalog.
     // ------------------------------------------------------------------
-    val canonicalNames = validateFontSpecs(fontSpecs) ?: run {
+    val catalog = GoogleFontsCatalog()
+    val canonicalNames = validateFontSpecs(fontSpecs, catalog) ?: run {
         println()
         println("=== Task Aborted: no files were downloaded ===")
         exitProcess(1)
     }
+
+    // Automatically detect script categories from official catalog metadata
+    val detectedScriptCategories = catalog.scriptCategories() ?: emptyMap()
 
     val designerFetcher = DesignerFetcher()
     val fontDownloader = FontDownloader()
@@ -57,14 +66,14 @@ fun main() {
     val generatedFontItems = mutableListOf<FontItem>()
 
     println()
-    println("--- Step 2/3: Gathering font files ---")
+    println("--- Step 2/3: Gathering font files & metadata ---")
 
     for (i in fontSpecs.indices) {
-        val spec = fontSpecs[i]
         val canonicalName = canonicalNames[i]
         val idFont = FontIdMapper.toIdFont(canonicalName)
+        val scriptCategory = detectedScriptCategories[canonicalName] ?: ScriptCategory.LATIN
 
-        println("Processing [$idFont] $canonicalName (${spec.scriptCategory})...")
+        println("Processing [$idFont] $canonicalName (Detected script: $scriptCategory)...")
 
         // 1. Fetch designer
         val designer = designerFetcher.fetchDesigner(canonicalName)
@@ -101,7 +110,7 @@ fun main() {
         val fontItem = FontItem(
             idFont = idFont,
             displayName = canonicalName,
-            scriptCategory = spec.scriptCategory,
+            scriptCategory = scriptCategory,
             localResName = localResName,
             googleFontName = canonicalName,
             designer = designer
@@ -135,11 +144,11 @@ fun main() {
  *
  * @return list of official canonical family names matching spec order, or `null` if validation fails.
  */
-private fun validateFontSpecs(fontSpecs: List<ParsedFontSpec>): List<String>? {
+private fun validateFontSpecs(fontSpecs: List<ParsedFontSpec>, catalog: GoogleFontsCatalog): List<String>? {
     println()
     println("--- Step 1/3: Validating font names in fonts.md against Google Fonts catalog ---")
 
-    val availableFamilies = GoogleFontsCatalog().families()
+    val availableFamilies = catalog.families()
     if (availableFamilies.isNullOrEmpty()) {
         println("Error: Failed to fetch Google Fonts catalog (${GoogleFontsCatalog.DEFAULT_METADATA_URL}).")
         println("       Validation is intentionally strict to prevent downloading invalid fonts.")
