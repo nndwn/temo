@@ -117,7 +117,7 @@ jobs:
 
       - name: Create GitHub Draft Release
         if: env.HAS_NOTES == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           draft: true
           tag_name: ${{ env.TAG_NAME }}
