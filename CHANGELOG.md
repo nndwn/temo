@@ -2,6 +2,8 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
+
+## [1.4.9] - 2026-10-05
 - Migrate non-local font sources from Google Fonts to a self-hosted bundle
 - Download fonts based on the language/script in use (on-demand) and cache them offline
 - New fonts appear immediately after the download completes
