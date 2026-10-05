@@ -43,7 +43,8 @@
 - [-] test dd dd dd ❌ 2026-09-30 05:58 ➕ 2026-09-30 04:51 📝 2026-09-30 05:57 🆔 rf9aaP // test test
 - [x] 🔺 #issue di review bisa saja waktu pop up support akan sama dengan waktu tampil review selain itu di review kenapa langsung munncul sdk review seharus nya berikan user pilihan review atau tidak #production #v1.4.2-beta 🛫 2026-10-01 03:06 ✅ 2026-10-02 03:40 ➕ 2026-10-01 00:17 🆔 7eKVwX
 - [/] ⏫ F-droid memiliki masalah font yang tidak dapat didownload karena mengunakan google services #issue #development 🛫 2026-10-04 12:04 ➕ 2026-10-04 12:02 🆔 AuRufk // - pertama task untuk mendownload semua fonts
-- [ ] ⏫ membuat modul untuk task download font #v1.4.9 #development #feature ➕ 2026-10-04 19:20 🆔 BaYypB
+- [-] ⏫ membuat modul untuk task download font #v1.4.9 #development #feature ❌ 2026-10-05 20:24 ➕ 2026-10-04 19:20 🆔 BaYypB // metode berubah updade ke versi #v1.5.1
 - [x] ⏫ #issue seharusn untuk modul sendiri input dan output nya di pisah #development #v1.4.9 🛫 2026-10-04 19:32 ✅ 2026-10-04 21:46 ➕ 2026-10-04 19:21 🆔 d4Px8s
 - [x] ⏫ #issue bagaimana caranya deteksi font nya tersebut bisa support di bahasa lainnya aku rasa yang di download ini semua latin semua ku perlu test #v1.4.9 #development 🛫 2026-10-04 21:47 ✅ 2026-10-05 00:24 ➕ 2026-10-04 19:23 🆔 VcZ1rQ
 - [-] ⏫ untuk method apakah bisa menerapkan metode lzma ? #development #feature #v1.4.9 🛫 2026-10-05 13:43 ❌ 2026-10-05 15:22 ➕ 2026-10-04 22:33 🆔 vhaSVL // enggak perlu ternyata malah menambahkan komplesitas tapi tetap di jadikan sebagai paramater di lib sebagai fitur pertimbangan nantinya
+- [/] 🔺 #feature penambahann pengaturan font type kategory sebelum nya disatukan sekarang di pisah , sudah di terapkan tapi masih ada kendala font tidak tampil di preview dan font tidak di ketahui terdownload atau tidak , karena sekarang mengunakan teknik bundle #development #v1.5.1 🛫 2026-10-05 20:27 ➕ 2026-10-05 20:23 🆔 xSOcj4

@@ -140,16 +140,16 @@ jobs:
       #   (`apk/<flavor>/<buildType>/` and `bundle/<flavor><BuildType>/`), and the
       #   changelog-publish plugin RENAMES every artifact, so globs are used instead of exact names.
       # - GITHUB_TOKEN: Automatic authentication token provided by GitHub Actions.
-#      - name: Upload Signed APKs & Bundles to GitHub Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          tag_name: ${{ env.RELEASE_TAG }}
-#          files: |
-#            app/build/outputs/apk/foss/release/*.apk
-#            app/build/outputs/apk/playstore/release/*.apk
-#            app/build/outputs/bundle/playstoreRelease/*.aab
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Signed APKs & Bundles to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: |
+            app/build/outputs/apk/foss/release/*.apk
+            app/build/outputs/apk/playstore/release/*.apk
+            app/build/outputs/bundle/playstoreRelease/*.aab
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request for Updated CHANGELOG.md
         uses: peter-evans/create-pull-request@v6

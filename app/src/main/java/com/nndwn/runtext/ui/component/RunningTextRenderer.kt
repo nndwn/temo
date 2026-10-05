@@ -32,12 +32,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -53,7 +51,7 @@ import com.nndwn.runtext.data.model.TextConfig
 import com.nndwn.runtext.domain.runtext.RunningTextLayoutCalculator
 import com.nndwn.runtext.ui.LocalSizeHeight
 import com.nndwn.runtext.ui.theme.toComposeColor
-import com.nndwn.runtext.ui.utils.fontFamilyFor
+import com.nndwn.runtext.ui.utils.rememberFontFamily
 import java.text.Bidi
 import kotlin.math.cos
 import kotlin.math.sin
@@ -70,7 +68,6 @@ fun RunningTextRenderer(
   val textMeasurer = rememberTextMeasurer()
   val density = LocalDensity.current
   val distanceShadow = 4f
-  val context = LocalContext.current
   val localSizeHeight = LocalSizeHeight.current
 
   val rawText =
@@ -87,7 +84,7 @@ fun RunningTextRenderer(
       fonts.find { it.idFont == settings.textStyle.fontId }
     }
 
-  val fontFamily = currentFont?.let { fontFamilyFor(context, it) } ?: FontFamily.Default
+  val fontFamily = rememberFontFamily(currentFont)
 
   val fontLoadState by
     produceState(

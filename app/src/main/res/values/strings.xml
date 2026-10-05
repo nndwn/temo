@@ -7,7 +7,7 @@
     <string name="set_config_color_background">Background</string>
     <string name="set_config_text_style">Font Style</string>
     <string name="set_config_text_style_desc">Choose your style font type with your language</string>
-    <string name="set_config_text_style_category">Category</string>
+    <string name="set_config_text_style_category">Font Category</string>
     <string name="set_config_text_color_text">Text Color</string>
     <string name="set_config_text_color_type_solid">Solid</string>
     <string name="set_config_text_color_type_gradient">Gradient</string>

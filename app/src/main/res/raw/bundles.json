@@ -1,42 +1,42 @@
 {
-  "version": "fonts-2026.01",
-  "baseUrl": "https://github.com/nndwn/temo/releases/download",
-  "bundles": {
-    "LATIN": {
-      "file": "latin.zip",
-      "sha256": null
-    },
-    "ARABIC": {
-      "file": "arabic.zip",
-      "sha256": null
-    },
-    "JAPANESE": {
-      "file": "japanese.zip",
-      "sha256": null
-    },
-    "CHINESE": {
-      "file": "chinese.zip",
-      "sha256": null
-    },
-    "KOREAN": {
-      "file": "korean.zip",
-      "sha256": null
-    },
-    "THAI": {
-      "file": "thai.zip",
-      "sha256": null
-    },
-    "DEVANAGARI": {
-      "file": "devanagari.zip",
-      "sha256": null
-    },
-    "KHMER": {
-      "file": "khmer.zip",
-      "sha256": null
-    },
-    "HEBREW": {
-      "file": "hebrew.zip",
-      "sha256": null
+    "version": "fonts-2026.02",
+    "baseUrl": "https://github.com/nndwn/temo/releases/download",
+    "bundles": {
+        "LATIN": {
+            "file": "latin.zip",
+            "sha256": "efc5ad36355763f8b2c08634652d41536d6dbe674819d8badd84117b7f51d7ae"
+        },
+        "HEBREW": {
+            "file": "hebrew.zip",
+            "sha256": "07a03123b8fb2eec15d9034b3be146d52b1b7ac649d1afd139fba6332a04369c"
+        },
+        "DEVANAGARI": {
+            "file": "devanagari.zip",
+            "sha256": "835166644d47dd0bc6cce71be61e08e95d954c013b3ae4174064bbadc7e8f1fa"
+        },
+        "JAPANESE": {
+            "file": "japanese.zip",
+            "sha256": "eb04c2ac624039b30dbc4b6d764c7071a5843fa6195c3e6604f32a194da49a21"
+        },
+        "KOREAN": {
+            "file": "korean.zip",
+            "sha256": "9c74a9d563508fbff58f11b8d820ad92781f776c009d4d65b0ac036fac7640dc"
+        },
+        "CHINESE": {
+            "file": "chinese.zip",
+            "sha256": "f417484b185d912f6a850457544dc38f0cc3d5c528a70917fa4d63e0ca946611"
+        },
+        "ARABIC": {
+            "file": "arabic.zip",
+            "sha256": "104099ad4820c82d28d81d4865b0557d46b50d8b0e2ab55587794d496d28175a"
+        },
+        "THAI": {
+            "file": "thai.zip",
+            "sha256": "b0b3ca5edc100f87210f93fbd5e120ee1a6ad86c8bcc436224a3aa136c3acf8e"
+        },
+        "KHMER": {
+            "file": "khmer.zip",
+            "sha256": "f4d82741bbd3678e467f21df1cf1f484847ca80d3d672ca88754a35ff143d59d"
+        }
     }
-  }
 }

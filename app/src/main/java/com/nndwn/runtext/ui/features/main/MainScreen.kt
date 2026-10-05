@@ -69,7 +69,9 @@ import com.nndwn.runtext.data.model.AppSettings
 import com.nndwn.runtext.data.font.FontBundleEntryPoint
 import com.nndwn.runtext.data.model.FontData
 import com.nndwn.runtext.data.model.ScriptCategory
+import com.nndwn.runtext.ui.LocalFonts
 import com.nndwn.runtext.ui.LocalMenuOptionHandler
+import com.nndwn.runtext.ui.LocalReadyScripts
 import com.nndwn.runtext.ui.LocalSizeHeight
 import com.nndwn.runtext.ui.LocalSizeWidth
 import com.nndwn.runtext.ui.LocalToggleSidebar

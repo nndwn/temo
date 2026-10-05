@@ -68,8 +68,6 @@ fun TextSettingsList(
 
         TextFontStyleConfig(
             config = settings.textConfig.textStyle,
-            expandId = expandedPickerId,
-            onToggle = togglePicker,
             onOpenStyleFont = onFontPanelToggle,
             onOpenTypeFont = onFontCategoryPanelToggle,
         )

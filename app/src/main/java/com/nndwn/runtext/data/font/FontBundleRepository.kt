@@ -2,6 +2,7 @@ package com.nndwn.runtext.data.font
 
 import android.content.Context
 import android.graphics.Typeface
+import android.util.Log
 import androidx.compose.ui.text.font.FontFamily
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
@@ -61,7 +62,10 @@ class FontBundleRepository @Inject constructor(
     val file = cachedFontFile(script, idFont) ?: return null
     return try {
       FontFamily(Typeface.createFromFile(file))
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+      // A bundle asset that is not a raw TrueType/OpenType file (e.g. WOFF2 renamed to .ttf)
+      // can never be loaded by Typeface. Log it instead of failing silently.
+      Log.w(TAG, "Cannot read bundled font '${file.name}' for $script, falling back to default", e)
       null
     }
   }
@@ -130,6 +134,10 @@ class FontBundleRepository @Inject constructor(
 
   private fun scriptDir(script: ScriptCategory): File =
     File(File(context.noBackupFilesDir, "fonts/${manifest.version}"), script.name)
+
+  private companion object {
+    const val TAG = "FontBundle"
+  }
 }
 
 @EntryPoint

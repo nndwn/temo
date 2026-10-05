@@ -1,5 +1,6 @@
 package io.github.nndwn.getgooglefont.compressit.validator
 
+import io.github.nndwn.getgooglefont.compressit.fetcher.FontDownloader
 import io.github.nndwn.getgooglefont.compressit.model.FontItem
 import io.github.nndwn.getgooglefont.compressit.model.ScriptCategory
 import kotlinx.serialization.json.Json
@@ -37,21 +38,26 @@ class FontScriptSupportTest {
             val fontId = file.name.removeSuffix(".ttf").lowercase()
             val fontItem = fontById[fontId] ?: continue
 
-            try {
-                val font = Font.createFont(Font.TRUETYPE_FONT, file)
-                val sampleChar = sampleCharFor(fontItem.scriptCategory)
-                val canDisplay = font.canDisplay(sampleChar.code)
+            // A WOFF/WOFF2 file renamed to `.ttf` is NOT loadable by Android's Typeface,
+            // so it must fail the build instead of being silently shipped to users.
+            val header = file.inputStream().use { it.readNBytes(4) }
+            assertTrue(
+                "Font [${fontItem.idFont}] (${fontItem.displayName}) file '${file.name}' bukan " +
+                    "TrueType/OpenType asli (magic=${FontDownloader.magicTag(header)}). " +
+                    "Android Typeface tidak dapat membaca WOFF/WOFF2.",
+                FontDownloader.isSupportedFontFormat(header)
+            )
 
-                assertTrue(
-                    "Font [${fontItem.idFont}] (${fontItem.displayName}) dengan ScriptCategory [${fontItem.scriptCategory}] " +
-                        "harus dapat menampilkan karakter '$sampleChar' (U+${Integer.toHexString(sampleChar.code).uppercase()})",
-                    canDisplay
-                )
-                verifiedCount++
-            } catch (_: Exception) {
-                // File format web font (seperti WOFF2) atau file yang tidak bisa dibaca AWT di-skip,
-                // karena WOFF2 didukung langsung oleh Android Skia/Typeface.
-            }
+            val font = Font.createFont(Font.TRUETYPE_FONT, file)
+            val sampleChar = sampleCharFor(fontItem.scriptCategory)
+            val canDisplay = font.canDisplay(sampleChar.code)
+
+            assertTrue(
+                "Font [${fontItem.idFont}] (${fontItem.displayName}) dengan ScriptCategory [${fontItem.scriptCategory}] " +
+                    "harus dapat menampilkan karakter '$sampleChar' (U+${Integer.toHexString(sampleChar.code).uppercase()})",
+                canDisplay
+            )
+            verifiedCount++
         }
 
         assertTrue("Harus berhasil memverifikasi minimal 20 font TTF hasil download", verifiedCount >= 20)

@@ -22,8 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,13 +33,13 @@ import com.nndwn.runtext.data.model.StrokeConfig
 import com.nndwn.runtext.data.model.TextColorType
 import com.nndwn.runtext.data.model.TextConfig
 import com.nndwn.runtext.data.model.TextStyleConfig
+import com.nndwn.runtext.ui.LocalFonts
 import com.nndwn.runtext.ui.component.CardExpanded
-import com.nndwn.runtext.ui.features.main.LocalFonts
 import com.nndwn.runtext.ui.features.main.MainUiEvent
 import com.nndwn.runtext.ui.theme.dimens
 import com.nndwn.runtext.ui.theme.toArgbLong
 import com.nndwn.runtext.ui.theme.toComposeColor
-import com.nndwn.runtext.ui.utils.fontFamilyFor
+import com.nndwn.runtext.ui.utils.rememberFontFamily
 
 data class TextPreset(
   val name: String,
@@ -81,7 +81,6 @@ private fun PresetItem(
   onClick: () -> Unit,
 ) {
   val fonts = LocalFonts.current
-  val context = LocalContext.current
   val fontData =
     remember(preset.settings.textStyle.fontId, fonts) {
       fonts.find { it.idFont == preset.settings.textStyle.fontId }
@@ -111,7 +110,8 @@ private fun PresetItem(
     ) {
       Text(
         text = "Aa",
-        fontFamily = fontData?.let { fontFamilyFor(context, it) } ?: MaterialTheme.typography.titleLarge.fontFamily,
+        fontFamily =
+          rememberFontFamily(fontData, MaterialTheme.typography.titleLarge.fontFamily ?: FontFamily.Default),
         color =
           if (preset.settings.textStyle.colorType == TextColorType.SOLID) {
             preset.settings.textStyle.colorArgb.toComposeColor()

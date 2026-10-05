@@ -22,6 +22,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.nndwn.runtext.AppFlavor
+import com.nndwn.runtext.data.font.FontBundleEntryPoint
 import com.nndwn.runtext.ui.component.MainLayout
 import com.nndwn.runtext.ui.component.MainLayoutState
 import com.nndwn.runtext.ui.component.MenuOptions
@@ -39,6 +40,7 @@ import com.nndwn.runtext.ui.utils.gotoMail
 import com.nndwn.runtext.ui.utils.gotoPlayStore
 import com.nndwn.runtext.ui.utils.handleSupportAction
 import com.nndwn.runtext.ui.utils.launchInAppReview
+import dagger.hilt.android.EntryPointAccessors
 
 @Composable
 fun RunTextApp(
@@ -46,6 +48,13 @@ fun RunTextApp(
 ) {
   val context = LocalContext.current
   val lifecycle = LocalLifecycleOwner.current.lifecycle
+
+  val fontBundleRepository = remember(context) {
+    EntryPointAccessors
+      .fromApplication(context.applicationContext, FontBundleEntryPoint::class.java)
+      .fontBundleRepository()
+  }
+  val readyScripts by fontBundleRepository.readyScripts.collectAsStateWithLifecycle()
 
   val hasTipped by appViewModel.hasTipped.collectAsStateWithLifecycle()
   val shouldShowSupportDialog by appViewModel.shouldShowSupportDialog.collectAsStateWithLifecycle()
@@ -111,6 +120,7 @@ fun RunTextApp(
   CompositionLocalProvider(
     LocalToggleSidebar provides { isSidebarOpen = !isSidebarOpen },
     LocalMenuOptionHandler provides handleMenuOption,
+    LocalReadyScripts provides readyScripts,
   ) {
     MainLayout(
       state =

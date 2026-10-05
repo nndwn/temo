@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -30,8 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nndwn.runtext.R
@@ -39,37 +41,20 @@ import com.nndwn.runtext.data.model.AppSettings
 import com.nndwn.runtext.data.model.FontData
 import com.nndwn.runtext.data.model.ScriptCategory
 import com.nndwn.runtext.data.model.TextStyleConfig
+import com.nndwn.runtext.ui.LocalFonts
+import com.nndwn.runtext.ui.LocalReadyScripts
 import com.nndwn.runtext.ui.component.CardExpanded
 import com.nndwn.runtext.ui.component.ConfigCard
 import com.nndwn.runtext.ui.component.SlideUpPanel
 import com.nndwn.runtext.ui.component.SlideUpPanelState
-import com.nndwn.runtext.ui.features.main.LocalFonts
-import com.nndwn.runtext.ui.features.main.LocalReadyScripts
 import com.nndwn.runtext.ui.theme.dimens
-import com.nndwn.runtext.ui.utils.fontFamilyFor
-
-val ScriptCategory.displayName: String
-  get() = when (this) {
-    ScriptCategory.LATIN -> "Latin"
-    ScriptCategory.ARABIC -> "Arabic (عربي)"
-    ScriptCategory.JAPANESE -> "Japanese (日本語)"
-    ScriptCategory.CHINESE -> "Chinese (中文)"
-    ScriptCategory.KOREAN -> "Korean (한국어)"
-    ScriptCategory.THAI -> "Thai (ไทย)"
-    ScriptCategory.DEVANAGARI -> "Devanagari (हिन्दी)"
-    ScriptCategory.KHMER -> "Khmer (ភាសាខ្មែរ)"
-    ScriptCategory.HEBREW -> "Hebrew (עברית)"
-  }
-
+import com.nndwn.runtext.ui.utils.rememberFontFamily
 @Composable
 fun TextFontStyleConfig(
   config: TextStyleConfig,
-  expandId: String?,
-  onToggle: (String) -> Unit,
   onOpenStyleFont: () -> Unit,
   onOpenTypeFont: () -> Unit,
 ) {
-  val context = LocalContext.current
   val fonts = LocalFonts.current
   val readyScripts = LocalReadyScripts.current
   val currentFont =
@@ -77,57 +62,69 @@ fun TextFontStyleConfig(
       fonts.find { it.idFont == config.fontId }
     }
 
-  CardExpanded(
-    title = stringResource(R.string.set_config_text_style),
-    idString = "text_style",
-    expandedId = expandId,
-    onToggle = onToggle,
+  ConfigCard(
+    padding = PaddingValues(0.dp),
   ) {
-    Column(
-      modifier = Modifier.padding(vertical = MaterialTheme.dimens.medium),
-      verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.small),
-    ) {
-      ConfigCard(
-        modifier =
-          Modifier.fillMaxSize()
-            .clip(MaterialTheme.shapes.medium)
-            .clickable(
-              indication = ripple(),
-              interactionSource = remember { MutableInteractionSource() },
-            ) {
-              onOpenTypeFont()
-            }
-      ) {
-        Text(stringResource(R.string.set_config_text_style_category), style = MaterialTheme.typography.titleSmall)
-        Spacer(modifier = Modifier.height(MaterialTheme.dimens.small))
-        Text(
-          text = config.fontCategory.displayName,
-          style = MaterialTheme.typography.titleLarge,
-        )
-      }
 
-      ConfigCard(
-        modifier =
-          Modifier.fillMaxSize()
-            .clip(MaterialTheme.shapes.medium)
-            .clickable(
-              indication = ripple(),
-              interactionSource = remember { MutableInteractionSource() },
-            ) {
-              onOpenStyleFont()
-            }
-      ) {
-        Text(stringResource(R.string.set_config_text_style), style = MaterialTheme.typography.titleSmall)
-        Spacer(modifier = Modifier.height(MaterialTheme.dimens.small))
-        Text(
-          text = currentFont?.displayName ?: config.fontId,
-          style =
-            MaterialTheme.typography.titleLarge.copy(
-              fontFamily = currentFont?.let { fontFamilyFor(context, it) } ?: MaterialTheme.typography.titleLarge.fontFamily
-            ),
-        )
-      }
-    }
+    SelectMenu(
+      shape = MaterialTheme.shapes.medium,
+      title = stringResource(R.string.set_config_text_style_category),
+      value = config.fontCategory.displayName,
+      valueStyle = MaterialTheme.typography.bodySmall.copy(
+        color = MaterialTheme.colorScheme.onSurface
+      ),
+      onClick = onOpenTypeFont
+    )
+    HorizontalDivider(
+      modifier = Modifier.fillMaxWidth(),
+      thickness = MaterialTheme.dimens.borderSmall,
+      color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.5f),
+    )
+
+    SelectMenu(
+      modifier = Modifier.fillMaxWidth(),
+      shape = MaterialTheme.shapes.medium,
+      title = stringResource(R.string.set_config_text_style),
+      value = currentFont?.displayName ?: config.fontId,
+      valueStyle =
+        MaterialTheme.typography.titleSmall.copy(
+          fontFamily =
+            rememberFontFamily(
+              currentFont,
+              MaterialTheme.typography.titleSmall.fontFamily ?: FontFamily.Default,
+            )
+        ),
+      onClick = onOpenStyleFont
+    )
+  }
+}
+
+@Composable
+fun SelectMenu(
+  modifier: Modifier = Modifier,
+  shape : Shape,
+  title : String,
+  value : String,
+  valueStyle : TextStyle,
+  onClick : ()-> Unit,
+){
+  Column(
+    verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.small),
+    modifier = modifier
+      .fillMaxWidth()
+      .clip(shape)
+      .clickable(
+        indication = ripple(),
+        interactionSource = remember { MutableInteractionSource() },
+        onClick = onClick,
+      )
+      .padding(MaterialTheme.dimens.medium)
+  ) {
+    Text(title, style = MaterialTheme.typography.titleSmall)
+    Text(
+      text = value,
+      style = valueStyle,
+    )
   }
 }
 
@@ -229,7 +226,6 @@ fun SelectorFonts(
   showPanelFonts: Boolean,
   dismissPanel: () -> Unit,
 ) {
-  val context = LocalContext.current
   val readyScripts = LocalReadyScripts.current
   val selectedCategory = settings.textConfig.textStyle.fontCategory
 
@@ -254,22 +250,6 @@ fun SelectorFonts(
       modifier = Modifier.align(Alignment.CenterHorizontally).padding(MaterialTheme.dimens.medium),
     )
 
-    LazyRow(
-      modifier = Modifier.fillMaxWidth().padding(horizontal = MaterialTheme.dimens.medium),
-      horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.extraSmall),
-    ) {
-      items(
-        items = ScriptCategory.entries,
-        key = { it.name },
-      ) { category ->
-        val isSelected = category == selectedCategory
-        FilterChip(
-          selected = isSelected,
-          onClick = { onUpdateFontCategory(category) },
-          label = { Text(category.displayName) },
-        )
-      }
-    }
 
     HorizontalDivider(
       modifier = Modifier.fillMaxWidth().padding(top = MaterialTheme.dimens.small),
@@ -310,7 +290,7 @@ fun SelectorFonts(
             Text(
               text = item.displayName,
               fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-              style = MaterialTheme.typography.bodyLarge.copy(fontFamily = fontFamilyFor(context, item)),
+              style = MaterialTheme.typography.bodyLarge.copy(fontFamily = rememberFontFamily(item)),
               color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
             )
 

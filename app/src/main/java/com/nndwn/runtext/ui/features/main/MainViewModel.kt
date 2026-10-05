@@ -7,11 +7,13 @@ import com.nndwn.runtext.R
 import com.nndwn.runtext.data.model.AppMode
 import com.nndwn.runtext.data.model.AppSettings
 import com.nndwn.runtext.data.model.FontData
+import com.nndwn.runtext.data.model.ScriptCategory
 import com.nndwn.runtext.data.model.MorseConfig
 import com.nndwn.runtext.data.model.ShadowConfig
 import com.nndwn.runtext.data.model.StrokeConfig
 import com.nndwn.runtext.data.model.TextConfig
 import com.nndwn.runtext.data.model.TextStyleConfig
+import com.nndwn.runtext.data.font.FontBundleRepository
 import com.nndwn.runtext.data.repository.FontRepository
 import com.nndwn.runtext.data.repository.SettingsRepository
 import com.nndwn.runtext.helper.Mp4VideoExporter
@@ -37,6 +39,7 @@ class MainViewModel
 constructor(
   private val repository: SettingsRepository,
   private val fontRepository: FontRepository,
+  private val fontBundleRepository: FontBundleRepository,
   private val uiEffectController: UiEffectController,
   private val mp4VideoExporter: Mp4VideoExporter,
 ) : ViewModel() {
@@ -144,13 +147,32 @@ constructor(
       is MainUiEvent.ToggleShadow -> updateShadow { copy(isEnabled = event.isEnabled) }
       is MainUiEvent.UpdateShadowColor -> updateShadow { copy(colorArgb = event.colorArgb) }
       is MainUiEvent.UpdateShadowRadius -> updateShadow { copy(radius = event.radius.coerceIn(0f, 25f)) }
-      is MainUiEvent.UpdateFontTypeCategory -> updateTextStyle { copy(fontCategory = event.type) }
+      is MainUiEvent.UpdateFontTypeCategory -> handleFontCategoryChange(event.type)
       is MainUiEvent.UpdateShadowRotation ->
         updateShadow {
           val normalizedRotation = (event.rotation % 360f + 360f) % 360f
           copy(rotation = normalizedRotation)
         }
       else -> {}
+    }
+  }
+
+  private fun handleFontCategoryChange(category: ScriptCategory) {
+    // Eagerly download the whole bundle for this script so every font in the category
+    // becomes usable at once (instead of one-by-one, lazily on render).
+    fontBundleRepository.ensureBundle(category)
+
+    updateTextStyle {
+      // If the currently selected font does not belong to the new category, fall back to
+      // the first font of that category so the preview keeps showing a valid typeface.
+      val currentFont = fontRepository.getFontById(fontId)
+      val selectedFontId =
+        if (currentFont?.scriptCategory == category) {
+          fontId
+        } else {
+          fontRepository.fonts.value.firstOrNull { it.scriptCategory == category }?.idFont ?: fontId
+        }
+      copy(fontCategory = category, fontId = selectedFontId)
     }
   }
 
@@ -231,6 +253,11 @@ constructor(
     if (_isExportingVideo.value) return
     viewModelScope.launch {
       val currentSettings = _settings.value ?: return@launch
+      // The canvas renderer resolves fonts non-reactively, so make sure the bundle for the
+      // currently selected font is requested before we start drawing frames.
+      fontRepository.getFontById(currentSettings.textConfig.textStyle.fontId)?.let { font ->
+        fontBundleRepository.ensureBundle(font.scriptCategory)
+      }
       _isExportingVideo.value = true
       _exportProgress.value = 0
       try {

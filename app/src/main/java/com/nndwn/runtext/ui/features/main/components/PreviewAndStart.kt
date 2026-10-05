@@ -36,8 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.nndwn.runtext.R
 import com.nndwn.runtext.data.model.AppMode
 import com.nndwn.runtext.data.model.AppSettings
+import com.nndwn.runtext.ui.LocalFonts
 import com.nndwn.runtext.ui.component.RunningTextRenderer
-import com.nndwn.runtext.ui.features.main.LocalFonts
 import com.nndwn.runtext.ui.theme.RuntextTheme
 import com.nndwn.runtext.ui.theme.dimens
 import com.nndwn.runtext.ui.theme.toComposeColor
