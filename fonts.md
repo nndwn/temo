@@ -1,7 +1,7 @@
 # Fonts Input List
 
-Daftar nama **family resmi Google Fonts** sebagai inputan task `:getgooglefont-compressit:compressFonts`.
-Script category (seperti Latin, Japanese, Korean, Arabic, dll.) akan dideteksi secara otomatis dari metadata resmi Google Fonts.
+List of official **Google Fonts family names** used as input for the `:getgooglefont-compressit:compressFonts` task.
+Script categories (such as Latin, Japanese, Korean, Arabic, etc.) are automatically detected from official Google Fonts metadata.
 
 - Roboto
 - Open Sans

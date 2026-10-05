@@ -2,6 +2,7 @@ package com.nndwn.runtext.ui.features.main
 
 import androidx.annotation.StringRes
 import com.nndwn.runtext.data.model.AppMode
+import com.nndwn.runtext.data.model.ScriptCategory
 import com.nndwn.runtext.data.model.TextColorType
 import com.nndwn.runtext.data.model.TextConfig
 
@@ -38,6 +39,8 @@ sealed interface MainUiEvent {
 
   // ── Text Style Events ──
   data class UpdateTextColor(val colorArgb: Long) : MainUiEvent
+
+  data class UpdateFontTypeCategory(val type : ScriptCategory) : MainUiEvent
 
   data class UpdateTextColorType(val type: TextColorType) : MainUiEvent
 

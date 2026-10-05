@@ -1,40 +1,41 @@
 {
   "version": "fonts-2026.01",
+  "baseUrl": "https://github.com/nndwn/temo/releases/download",
   "bundles": {
     "LATIN": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/latin.zip",
+      "file": "latin.zip",
       "sha256": null
     },
     "ARABIC": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/arabic.zip",
+      "file": "arabic.zip",
       "sha256": null
     },
     "JAPANESE": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/japanese.zip",
+      "file": "japanese.zip",
       "sha256": null
     },
     "CHINESE": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/chinese.zip",
+      "file": "chinese.zip",
       "sha256": null
     },
     "KOREAN": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/korean.zip",
+      "file": "korean.zip",
       "sha256": null
     },
     "THAI": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/thai.zip",
+      "file": "thai.zip",
       "sha256": null
     },
     "DEVANAGARI": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/devanagari.zip",
+      "file": "devanagari.zip",
       "sha256": null
     },
     "KHMER": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/khmer.zip",
+      "file": "khmer.zip",
       "sha256": null
     },
     "HEBREW": {
-      "url": "https://github.com/nndwn/runtext-fonts/releases/download/fonts-2026.01/hebrew.zip",
+      "file": "hebrew.zip",
       "sha256": null
     }
   }

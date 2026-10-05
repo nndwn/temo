@@ -71,20 +71,31 @@ class FontBundleRepository @Inject constructor(
     if (isBundleReady(script)) return
 
     val uniqueName = uniqueWorkName(script)
-    val data = Data.Builder()
-      .putString(FontBundleWorker.KEY_SCRIPT, script.name)
-      .putString(FontBundleWorker.KEY_URL, info.url)
-      .putString(FontBundleWorker.KEY_VERSION, manifest.version)
-      .build()
+    val workManager = WorkManager.getInstance(context)
 
-    val request = OneTimeWorkRequestBuilder<FontBundleWorker>()
-      .setInputData(data)
-      .build()
+    scope.launch {
+      runCatching {
+        val infos = workManager.getWorkInfosForUniqueWork(uniqueName).get()
+        val isRunningOrEnqueued = infos.any {
+          it.state == WorkInfo.State.ENQUEUED || it.state == WorkInfo.State.RUNNING
+        }
+        if (!isRunningOrEnqueued) {
+          val downloadUrl = info.resolveUrl(manifest.baseUrl, manifest.version, script.name)
+          val data = Data.Builder()
+            .putString(FontBundleWorker.KEY_SCRIPT, script.name)
+            .putString(FontBundleWorker.KEY_URL, downloadUrl)
+            .putString(FontBundleWorker.KEY_VERSION, manifest.version)
+            .build()
 
-    WorkManager.getInstance(context)
-      .enqueueUniqueWork(uniqueName, ExistingWorkPolicy.KEEP, request)
+          val request = OneTimeWorkRequestBuilder<FontBundleWorker>()
+            .setInputData(data)
+            .build()
 
-    observeUntilReady(script)
+          workManager.enqueueUniqueWork(uniqueName, ExistingWorkPolicy.REPLACE, request)
+        }
+      }
+      observeUntilReady(script)
+    }
   }
 
   private fun observeUntilReady(script: ScriptCategory) {

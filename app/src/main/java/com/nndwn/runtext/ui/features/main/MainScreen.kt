@@ -81,6 +81,7 @@ import com.nndwn.runtext.ui.features.main.components.AppModeSettings
 import com.nndwn.runtext.ui.features.main.components.LogoText
 import com.nndwn.runtext.ui.features.main.components.MorseCodeSettingsList
 import com.nndwn.runtext.ui.features.main.components.PreviewAndStart
+import com.nndwn.runtext.ui.features.main.components.SelectorCategoryFont
 import com.nndwn.runtext.ui.features.main.components.SelectorFonts
 import com.nndwn.runtext.ui.features.main.components.TextInputConfig
 import com.nndwn.runtext.ui.features.main.components.TextSettingsList
@@ -123,6 +124,7 @@ fun MainScreenContent(
   val focusManager = LocalFocusManager.current
 
   var expandedPickerId by remember { mutableStateOf<String?>(null) }
+  var showPanelCategoryFonts by remember { mutableStateOf(false) }
   var showPanelFonts by remember { mutableStateOf(false) }
 
   val dispatch: (MainUiEvent) -> Unit = { event ->
@@ -150,7 +152,13 @@ fun MainScreenContent(
       togglePicker = togglePicker,
       onFontPanelToggle = {
         expandedPickerId = null
+        showPanelCategoryFonts = false
         showPanelFonts = !showPanelFonts
+      },
+      onFontCategoryPanelToggle = {
+        expandedPickerId = null
+        showPanelFonts = false
+        showPanelCategoryFonts = !showPanelCategoryFonts
       },
       onAutoExpandPicker = { expandedPickerId = it },
     )
@@ -159,11 +167,18 @@ fun MainScreenContent(
       uiState = uiState,
       fonts = fonts,
       showPanelFonts = showPanelFonts,
-      onDismiss = { showPanelFonts = false },
+      showPanelCategoryFonts = showPanelCategoryFonts,
+      onDismissFonts = { showPanelFonts = false },
+      onDismissCategory = { showPanelCategoryFonts = false },
       onUpdateFont = { fontId ->
         focusManager.clearFocus()
         expandedPickerId = null
         dispatch(MainUiEvent.UpdateFontType(fontId))
+      },
+      onUpdateFontCategory = { category ->
+        focusManager.clearFocus()
+        expandedPickerId = null
+        dispatch(MainUiEvent.UpdateFontTypeCategory(category))
       },
     )
 
@@ -182,6 +197,7 @@ private fun MainScreenLayout(
   dispatch: (MainUiEvent) -> Unit,
   togglePicker: (String) -> Unit,
   onFontPanelToggle: () -> Unit,
+  onFontCategoryPanelToggle: () -> Unit,
   onAutoExpandPicker: (String) -> Unit,
 ) {
 
@@ -226,6 +242,7 @@ private fun MainScreenLayout(
       togglePicker = togglePicker,
       sideBarEnd = toggleSidebar,
       onFontPanelToggle = onFontPanelToggle,
+      onFontCategoryPanelToggle = onFontCategoryPanelToggle,
     )
   }
 }
@@ -239,6 +256,7 @@ private fun RowScope.MainConfigList(
   togglePicker: (String) -> Unit,
   sideBarEnd: () -> Unit,
   onFontPanelToggle: () -> Unit,
+  onFontCategoryPanelToggle: () -> Unit,
 ) {
 
   val widowSizeHeight = LocalSizeHeight.current
@@ -271,6 +289,7 @@ private fun RowScope.MainConfigList(
             dispatch(it)
           },
           onFontPanelToggle = onFontPanelToggle,
+          onFontCategoryPanelToggle = onFontCategoryPanelToggle,
         )
     }
   }
@@ -281,16 +300,27 @@ private fun MainFontSelector(
   uiState: MainUiState,
   fonts: List<FontData>,
   showPanelFonts: Boolean,
-  onDismiss: () -> Unit,
+  showPanelCategoryFonts: Boolean,
+  onDismissFonts: () -> Unit,
+  onDismissCategory: () -> Unit,
   onUpdateFont: (String) -> Unit,
+  onUpdateFontCategory: (ScriptCategory) -> Unit,
 ) {
   (uiState as? MainUiState.Success)?.let { success ->
     SelectorFonts(
       settings = success.settings,
       fonts = fonts,
       onUpdateFontType = onUpdateFont,
+      onUpdateFontCategory = onUpdateFontCategory,
       showPanelFonts = showPanelFonts,
-      dismissPanel = onDismiss,
+      dismissPanel = onDismissFonts,
+    )
+
+    SelectorCategoryFont(
+      currentCategory = success.settings.textConfig.textStyle.fontCategory,
+      onUpdateCategory = onUpdateFontCategory,
+      showPanel = showPanelCategoryFonts,
+      onDismiss = onDismissCategory,
     )
   }
 }
@@ -384,6 +414,7 @@ private fun LazyListScope.successContent(
   dispatch: (MainUiEvent) -> Unit,
   dispatchAndClosePicker: (MainUiEvent) -> Unit,
   onFontPanelToggle: () -> Unit,
+  onFontCategoryPanelToggle: () -> Unit,
 ) {
   if (widowSizeHeight != WindowHeightSizeClass.Compact) {
     stickyHeader {
@@ -434,6 +465,7 @@ private fun LazyListScope.successContent(
       dispatch = dispatch,
       dispatchAndClosePicker = dispatchAndClosePicker,
       onFontPanelToggle = onFontPanelToggle,
+      onFontCategoryPanelToggle = onFontCategoryPanelToggle,
     )
   }
 }
@@ -489,6 +521,7 @@ private fun ModeSpecificSettings(
   dispatch: (MainUiEvent) -> Unit,
   dispatchAndClosePicker: (MainUiEvent) -> Unit,
   onFontPanelToggle: () -> Unit,
+  onFontCategoryPanelToggle: () -> Unit,
 ) {
   AnimatedContent(
     targetState = settings.mode,
@@ -512,6 +545,7 @@ private fun ModeSpecificSettings(
           dispatch = dispatch,
           dispatchAndClosePicker = dispatchAndClosePicker,
           onFontPanelToggle = onFontPanelToggle,
+          onFontCategoryPanelToggle = onFontCategoryPanelToggle,
         )
       }
       AppMode.MORSE_CODE -> {

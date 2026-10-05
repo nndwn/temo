@@ -129,7 +129,7 @@ Requires an Android device running **Android 9 (API 28)** or newer.
 #   - app/src/main/res/raw/fonts.json   (font metadata)
 ./gradlew :getgooglefont-compressit:compressFonts \
   -PbundleVersion=fonts-2026.01 \
-  -PbaseUrl=https://github.com/<owner>/runtext-fonts/releases/download
+  -PbaseUrl=https://github.com/<owner>/temo/releases/download
 
 # Optional flags for the compressFonts task:
 #   -Pzip                 also create the combined raw/compressed_fonts.zip

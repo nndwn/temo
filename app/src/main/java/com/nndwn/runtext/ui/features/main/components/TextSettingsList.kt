@@ -24,6 +24,7 @@ fun TextSettingsList(
     dispatch: (MainUiEvent) -> Unit,
     dispatchAndClosePicker: (MainUiEvent) -> Unit,
     onFontPanelToggle: () -> Unit,
+    onFontCategoryPanelToggle: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -65,11 +66,12 @@ fun TextSettingsList(
             )
         }
 
-
-
         TextFontStyleConfig(
             config = settings.textConfig.textStyle,
-            onClick = onFontPanelToggle,
+            expandId = expandedPickerId,
+            onToggle = togglePicker,
+            onOpenStyleFont = onFontPanelToggle,
+            onOpenTypeFont = onFontCategoryPanelToggle,
         )
 
         ConfigCard {

@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
     val positionalArgs = positionalArgs(args, valueFlags)
 
     val bundleVersion = valueArg(args, "--bundle-version") ?: "fonts-1"
-    val baseUrl = valueArg(args, "--base-url") ?: "https://github.com/nndwn/runtext-fonts/releases/download"
+    val baseUrl = valueArg(args, "--base-url") ?: "https://github.com/nndwn/temo/releases/download"
 
     if (positionalArgs.size < 2) {
         println("Error: Missing required arguments.")
@@ -282,13 +282,14 @@ private fun writeBundles(
         val sha = sha256(zipBytes)
         println("Created bundle: ${zipFile.absolutePath} (${zipBytes.size} bytes, sha256=$sha)")
         script.name to FontBundleInfo(
-            url = "$baseUrl/$bundleVersion/$zipFileName",
+            file = zipFileName,
             sha256 = sha,
         )
     }
 
     val manifest = FontBundleManifest(
         version = bundleVersion,
+        baseUrl = baseUrl,
         bundles = bundles,
     )
     outputBundlesJsonFile.parentFile?.mkdirs()

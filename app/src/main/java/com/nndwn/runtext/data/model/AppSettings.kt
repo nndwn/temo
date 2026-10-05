@@ -52,6 +52,7 @@ data class TextStyleConfig(
     ),
   val gradientDistance: Float = 0.5f,
   val isGradientHorizontal: Boolean = false,
+  val fontCategory : ScriptCategory = ScriptCategory.LATIN,
   val fontId: String = "ANTON",
   val googleFontName: String = "",
 )

@@ -90,6 +90,7 @@ constructor(
       is MainUiEvent.UpdateVibrateEnabled -> handleMorseEvent(event)
 
       // Text Style
+      is MainUiEvent.UpdateFontTypeCategory,
       is MainUiEvent.UpdateTextColor,
       is MainUiEvent.UpdateTextColorType,
       is MainUiEvent.UpdateGradientColors,
@@ -143,6 +144,7 @@ constructor(
       is MainUiEvent.ToggleShadow -> updateShadow { copy(isEnabled = event.isEnabled) }
       is MainUiEvent.UpdateShadowColor -> updateShadow { copy(colorArgb = event.colorArgb) }
       is MainUiEvent.UpdateShadowRadius -> updateShadow { copy(radius = event.radius.coerceIn(0f, 25f)) }
+      is MainUiEvent.UpdateFontTypeCategory -> updateTextStyle { copy(fontCategory = event.type) }
       is MainUiEvent.UpdateShadowRotation ->
         updateShadow {
           val normalizedRotation = (event.rotation % 360f + 360f) % 360f
