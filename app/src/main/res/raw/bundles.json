@@ -1,42 +1,42 @@
 {
-    "version": "fonts-2026.02",
+    "version": "fonts-2026.10",
     "baseUrl": "https://github.com/nndwn/temo/releases/download",
     "bundles": {
         "LATIN": {
             "file": "latin.zip",
-            "sha256": "efc5ad36355763f8b2c08634652d41536d6dbe674819d8badd84117b7f51d7ae"
+            "sha256": "c8b134680d04de267736f2ded44538d90e3572e3f48aabda25c9719130d4df4a"
         },
         "HEBREW": {
             "file": "hebrew.zip",
-            "sha256": "07a03123b8fb2eec15d9034b3be146d52b1b7ac649d1afd139fba6332a04369c"
+            "sha256": "cf239d32cc076e7b234fc63c81e417b04000a5531ee516cda5a4c216d80f6813"
         },
         "DEVANAGARI": {
             "file": "devanagari.zip",
-            "sha256": "835166644d47dd0bc6cce71be61e08e95d954c013b3ae4174064bbadc7e8f1fa"
+            "sha256": "a4bdd659e1c5891eacec8a041c229151ca0d7429ce39f632d57f406e81fb60b1"
         },
         "JAPANESE": {
             "file": "japanese.zip",
-            "sha256": "eb04c2ac624039b30dbc4b6d764c7071a5843fa6195c3e6604f32a194da49a21"
+            "sha256": "76f515890f547535b118726a8f68d67676c833b2ef4aa059ba97e0bea71cb0f4"
         },
         "KOREAN": {
             "file": "korean.zip",
-            "sha256": "9c74a9d563508fbff58f11b8d820ad92781f776c009d4d65b0ac036fac7640dc"
+            "sha256": "17cea2fe0df0572c4670bfb4adff19c4c62789f901dbae0b2e4aa771c594c2c0"
         },
         "CHINESE": {
             "file": "chinese.zip",
-            "sha256": "f417484b185d912f6a850457544dc38f0cc3d5c528a70917fa4d63e0ca946611"
+            "sha256": "880b216d9ffdc07623ed1b52e77b32a6157ca32f71232d111f50d640bd516d63"
         },
         "ARABIC": {
             "file": "arabic.zip",
-            "sha256": "104099ad4820c82d28d81d4865b0557d46b50d8b0e2ab55587794d496d28175a"
+            "sha256": "845822e01323b0c94f47b208fa39a5ffe22e982c1ee0a22aabc4a22a3949ff37"
         },
         "THAI": {
             "file": "thai.zip",
-            "sha256": "b0b3ca5edc100f87210f93fbd5e120ee1a6ad86c8bcc436224a3aa136c3acf8e"
+            "sha256": "bf0d701e5dc50afa68afe846990d25e2b7399add54236867d7477b5874bad96d"
         },
         "KHMER": {
             "file": "khmer.zip",
-            "sha256": "f4d82741bbd3678e467f21df1cf1f484847ca80d3d672ca88754a35ff143d59d"
+            "sha256": "e5aed0fb6f7e484ab88e6981482eb96002816918c8ab19f688844491456080c0"
         }
     }
 }
