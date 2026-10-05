@@ -2,6 +2,9 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 ## [Unreleased]
+- Migrate non-local font sources from Google Fonts to a self-hosted bundle
+- Download fonts based on the language/script in use (on-demand) and cache them offline
+- New fonts appear immediately after the download completes
 
 ## [1.4.8] - 2026-10-03
 - change name dan metadata

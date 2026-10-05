@@ -1,0 +1,75 @@
+name: Generate Font Bundles
+
+on:
+  workflow_dispatch:
+    inputs:
+      bundle_version:
+        description: 'Font bundle version/tag (e.g. fonts-2026.01)'
+        required: true
+        default: 'fonts-2026.01'
+      base_url:
+        description: 'Optional base URL prefix. Leave empty to use this repository release URL.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-font-bundles:
+    name: Generate & Upload Font Bundles
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Generate Font Bundles
+        run: |
+          BASE_URL="${{ github.event.inputs.base_url }}"
+          if [ -z "$BASE_URL" ]; then
+            BASE_URL="https://github.com/${{ github.repository }}/releases/download"
+          fi
+
+          ./gradlew :getgooglefont-compressit:compressFonts \
+            -PbundleVersion="${{ github.event.inputs.bundle_version }}" \
+            -PbaseUrl="$BASE_URL" \
+            --stacktrace
+
+      - name: Upload Font Bundles to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.bundle_version }}
+          files: build/font-bundles/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request for Updated Font Manifests
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(fonts): update bundles.json and fonts.json for ${{ github.event.inputs.bundle_version }}"
+          title: "chore(fonts): update font bundles for ${{ github.event.inputs.bundle_version }}"
+          body: |
+            Automated PR generated after generating font bundles for **${{ github.event.inputs.bundle_version }}**.
+
+            This PR contains the regenerated `bundles.json` and `fonts.json`.
+          add-paths: |
+            app/src/main/res/raw/bundles.json
+            app/src/main/res/raw/fonts.json
+          branch: "release/font-bundles-${{ github.event.inputs.bundle_version }}"
+          base: "main"
+          delete-branch: true

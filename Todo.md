@@ -46,4 +46,4 @@
 - [ ] ⏫ membuat modul untuk task download font #v1.4.9 #development #feature ➕ 2026-10-04 19:20 🆔 BaYypB
 - [x] ⏫ #issue seharusn untuk modul sendiri input dan output nya di pisah #development #v1.4.9 🛫 2026-10-04 19:32 ✅ 2026-10-04 21:46 ➕ 2026-10-04 19:21 🆔 d4Px8s
 - [x] ⏫ #issue bagaimana caranya deteksi font nya tersebut bisa support di bahasa lainnya aku rasa yang di download ini semua latin semua ku perlu test #v1.4.9 #development 🛫 2026-10-04 21:47 ✅ 2026-10-05 00:24 ➕ 2026-10-04 19:23 🆔 VcZ1rQ
-- [ ] ⏫ untuk method apakah bisa menerapkan metode lzma ? #development #feature #v1.4.9 ➕ 2026-10-04 22:33 🆔 vhaSVL
+- [-] ⏫ untuk method apakah bisa menerapkan metode lzma ? #development #feature #v1.4.9 🛫 2026-10-05 13:43 ❌ 2026-10-05 15:22 ➕ 2026-10-04 22:33 🆔 vhaSVL // enggak perlu ternyata malah menambahkan komplesitas tapi tetap di jadikan sebagai paramater di lib sebagai fitur pertimbangan nantinya

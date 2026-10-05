@@ -54,17 +54,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dagger.hilt.android.EntryPointAccessors
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nndwn.runtext.R
 import com.nndwn.runtext.data.model.AppMode
 import com.nndwn.runtext.data.model.AppSettings
+import com.nndwn.runtext.data.font.FontBundleEntryPoint
 import com.nndwn.runtext.data.model.FontData
+import com.nndwn.runtext.data.model.ScriptCategory
 import com.nndwn.runtext.ui.LocalMenuOptionHandler
 import com.nndwn.runtext.ui.LocalSizeHeight
 import com.nndwn.runtext.ui.LocalSizeWidth
@@ -90,9 +94,17 @@ fun MainScreen(
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
   val fonts by viewModel.fonts.collectAsStateWithLifecycle()
 
+  val context = LocalContext.current
+  val fontBundleRepository = remember(context) {
+    EntryPointAccessors.fromApplication(context.applicationContext, FontBundleEntryPoint::class.java)
+      .fontBundleRepository()
+  }
+  val readyScripts by fontBundleRepository.readyScripts.collectAsStateWithLifecycle()
+
   MainScreenContent(
     uiState = uiState,
     fonts = fonts,
+    readyScripts = readyScripts,
     onEvent = viewModel::onEvent,
     padding = padding,
     limitText = viewModel.limitText,
@@ -104,6 +116,7 @@ fun MainScreenContent(
   padding: PaddingValues,
   uiState: MainUiState,
   fonts: List<FontData>,
+  readyScripts: Set<ScriptCategory>,
   onEvent: (MainUiEvent) -> Unit,
   limitText: Int = 100,
 ) {
@@ -127,6 +140,7 @@ fun MainScreenContent(
     LocalPadding provides padding,
     LocalLimitText provides limitText,
     LocalFonts provides fonts,
+    LocalReadyScripts provides readyScripts,
   ) {
 
     MainScreenLayout(

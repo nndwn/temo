@@ -32,6 +32,7 @@ import com.nndwn.runtext.ui.component.ConfigCard
 import com.nndwn.runtext.ui.component.SlideUpPanel
 import com.nndwn.runtext.ui.component.SlideUpPanelState
 import com.nndwn.runtext.ui.features.main.LocalFonts
+import com.nndwn.runtext.ui.features.main.LocalReadyScripts
 import com.nndwn.runtext.ui.theme.dimens
 import com.nndwn.runtext.ui.utils.detectPrimaryScript
 import com.nndwn.runtext.ui.utils.fontFamilyFor
@@ -43,8 +44,9 @@ fun TextFontStyleConfig(
 ) {
   val context = LocalContext.current
   val fonts = LocalFonts.current
+  val readyScripts = LocalReadyScripts.current
   val currentFont =
-    remember(config.fontId, fonts) {
+    remember(config.fontId, fonts, readyScripts) {
       fonts.find { it.idFont == config.fontId }
     }
 
@@ -78,6 +80,7 @@ fun SelectorFonts(
   dismissPanel: () -> Unit,
 ) {
   val context = LocalContext.current
+  val readyScripts = LocalReadyScripts.current
 
   val activeScript =
     remember(settings.lastText) {
@@ -85,7 +88,7 @@ fun SelectorFonts(
     }
 
   val sortedFonts =
-    remember(activeScript, fonts) {
+    remember(activeScript, fonts, readyScripts) {
       if (activeScript == ScriptCategory.LATIN) {
         fonts
       } else {

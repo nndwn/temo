@@ -33,6 +33,9 @@ nav3Core = "1.2.0"
 media3 = "1.11.1"
 gradlePlayPublisher = "4.1.1"
 jetbrainsKotlinJvm = "2.4.20"
+commonsCompress = "1.28.0"
+xz = "1.12"
+workManager = "2.12.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -74,6 +77,9 @@ androidx-media3-transformer = { module = "androidx.media3:media3-transformer", v
 androidx-media3-effect = { module = "androidx.media3:media3-effect", version.ref = "media3" }
 androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "media3" }
 androidx-media3-muxer = { module = "androidx.media3:media3-muxer", version.ref = "media3" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commonsCompress" }
+xz = { module = "org.tukaani:xz", version.ref = "xz" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

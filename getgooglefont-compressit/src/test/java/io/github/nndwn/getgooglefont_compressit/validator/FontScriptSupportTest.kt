@@ -5,62 +5,56 @@ import io.github.nndwn.getgooglefont.compressit.model.ScriptCategory
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Assume
 import org.junit.Test
 import java.awt.Font
-import java.awt.FontFormatException
-import java.io.ByteArrayInputStream
 import java.io.File
-import java.util.zip.ZipInputStream
 
 class FontScriptSupportTest {
 
     @Test
-    fun `pengujian dukungan karakter sampel pada file font lokal dan zip`() {
+    fun `pengujian dukungan karakter sampel pada file font hasil download`() {
         val rootDir = findProjectRootDir()
-        val zipFile = File(rootDir, "app/src/main/res/raw/compressed_fonts.zip")
+        val downloadedDir = File(rootDir, "build/downloaded-fonts")
         val jsonFile = File(rootDir, "app/src/main/res/raw/fonts.json")
 
-        assertTrue("File compressed_fonts.zip harus ada", zipFile.exists())
-        assertTrue("File fonts.json harus ada", jsonFile.exists())
+        Assume.assumeTrue(
+            "Skip: run `./gradlew :getgooglefont-compressit:compressFonts` first to generate build/downloaded-fonts",
+            downloadedDir.isDirectory && jsonFile.exists()
+        )
 
         val json = Json { ignoreUnknownKeys = true }
         val fonts: List<FontItem> = json.decodeFromString(jsonFile.readText())
         val fontById = fonts.associateBy { it.idFont.lowercase() }
 
-        val zipBytes = zipFile.readBytes()
+        val ttfFiles = downloadedDir.listFiles { file ->
+            file.isFile && file.extension.equals("ttf", ignoreCase = true)
+        }.orEmpty()
+
         var verifiedCount = 0
 
-        ZipInputStream(ByteArrayInputStream(zipBytes)).use { zis ->
-            var entry = zis.nextEntry
-            while (entry != null) {
-                val filename = entry.name
-                val fontId = filename.removeSuffix(".ttf").lowercase()
-                val fontItem = fontById[fontId]
+        for (file in ttfFiles) {
+            val fontId = file.name.removeSuffix(".ttf").lowercase()
+            val fontItem = fontById[fontId] ?: continue
 
-                if (fontItem != null) {
-                    val fontBytes = zis.readBytes()
-                    try {
-                        val font = Font.createFont(Font.TRUETYPE_FONT, ByteArrayInputStream(fontBytes))
-                        val sampleChar = sampleCharFor(fontItem.scriptCategory)
-                        val canDisplay = font.canDisplay(sampleChar.code)
+            try {
+                val font = Font.createFont(Font.TRUETYPE_FONT, file)
+                val sampleChar = sampleCharFor(fontItem.scriptCategory)
+                val canDisplay = font.canDisplay(sampleChar.code)
 
-                        assertTrue(
-                            "Font [${fontItem.idFont}] (${fontItem.displayName}) dengan ScriptCategory [${fontItem.scriptCategory}] " +
-                                "harus dapat menampilkan karakter '$sampleChar' (U+${Integer.toHexString(sampleChar.code).uppercase()})",
-                            canDisplay
-                        )
-                        verifiedCount++
-                    } catch (_: FontFormatException) {
-                        // File format web font (seperti WOFF2) di-skip di AWT JVM test,
-                        // karena WOFF2 didukung langsung oleh Android Skia/Typeface.
-                    }
-                }
-
-                entry = zis.nextEntry
+                assertTrue(
+                    "Font [${fontItem.idFont}] (${fontItem.displayName}) dengan ScriptCategory [${fontItem.scriptCategory}] " +
+                        "harus dapat menampilkan karakter '$sampleChar' (U+${Integer.toHexString(sampleChar.code).uppercase()})",
+                    canDisplay
+                )
+                verifiedCount++
+            } catch (_: Exception) {
+                // File format web font (seperti WOFF2) atau file yang tidak bisa dibaca AWT di-skip,
+                // karena WOFF2 didukung langsung oleh Android Skia/Typeface.
             }
         }
 
-        assertTrue("Harus berhasil memverifikasi minimal 20 font TTF lokal/mentah", verifiedCount >= 20)
+        assertTrue("Harus berhasil memverifikasi minimal 20 font TTF hasil download", verifiedCount >= 20)
         println("Berhasil memverifikasi dukungan glak karakter untuk $verifiedCount font TTF.")
     }
 

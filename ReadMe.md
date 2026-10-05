@@ -24,7 +24,7 @@ An animation that can run on the phone screen, and the resulting text design can
 * **Animation Text** Running animations like text moving from left to right or right to left for text starting from the right. Additionally, it provides a text blinking animation if blink mode is enabled.
 * **Mirror Mode** This feature is useful if the text is viewed through a mirror reflection so it can be read properly.
 * **Font Style** Settings for various font styles and text shapes.
-    * **Variant Font** Currently, there are 57 fonts available locally and online using Google Fonts. For the fonts themselves, they can be viewed here: [fonts.json](app/src/main/res/raw/fonts.json)
+    * **Variant Font** There are 57 fonts available. Fonts are either bundled in the app or downloaded on demand per script from a self-hosted bundle. The full list is in [fonts.json](app/src/main/res/raw/fonts.json), and the downloadable bundles are defined in [bundles.json](app/src/main/res/raw/bundles.json).
     * **Script Support** Fonts support various writing systems and scripts, such as Latin, Arabic, Japanese, Chinese, Korean, Thai, Devanagari, Khmer, and Hebrew.
 * **Background** Screen background that can be customized with solid colors.
 * **Text Color** Text color provides 2 choices: solid color and gradient.
@@ -122,8 +122,20 @@ Requires an Android device running **Android 9 (API 28)** or newer.
 #### Useful commands
 
 ```shell
-# Download missing fonts, fetch designer metadata, compress to raw/compressed_fonts.zip, and generate raw/fonts.json from fonts.md
-./gradlew :getgooglefont-compressit:compressFonts
+# Download missing fonts and generate:
+#   - build/downloaded-fonts/*.ttf      (raw downloaded fonts)
+#   - build/font-bundles/<script>.zip   (per-script bundles, with SHA-256)
+#   - app/src/main/res/raw/bundles.json (bundle manifest: version + URLs + hashes)
+#   - app/src/main/res/raw/fonts.json   (font metadata)
+./gradlew :getgooglefont-compressit:compressFonts \
+  -PbundleVersion=fonts-2026.01 \
+  -PbaseUrl=https://github.com/<owner>/runtext-fonts/releases/download
+
+# Optional flags for the compressFonts task:
+#   -Pzip                 also create the combined raw/compressed_fonts.zip
+#   -Plzma                also create raw/compressed_fonts.7z (LZMA2, smaller but heavier)
+#   -PbundleVersion=...   tag used in the bundle download URL (default: fonts-1)
+#   -PbaseUrl=...         base URL prefix for bundle download links
 
 # Reset the app data on a connected device
 adb shell pm clear com.nndwn.runtext

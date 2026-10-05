@@ -3,39 +3,14 @@ package com.nndwn.runtext.ui.utils
 import android.content.Context
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
-import com.nndwn.runtext.R
+import com.nndwn.runtext.data.font.FontBundleEntryPoint
 import com.nndwn.runtext.data.model.FontData
 import com.nndwn.runtext.data.model.ScriptCategory
+import dagger.hilt.android.EntryPointAccessors
 import java.util.concurrent.ConcurrentHashMap
 
-private val googleFontCache = ConcurrentHashMap<String, FontFamily>()
 private val localFontCache = ConcurrentHashMap<Int, FontFamily>()
-
-val GoogleFontProvider =
-  GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs,
-  )
-
-fun googleFontFamily(fontName: String): FontFamily {
-  if (fontName.isEmpty()) return FontFamily.Default
-
-  return googleFontCache.getOrPut(fontName) {
-    val gf = GoogleFont(fontName)
-    FontFamily(
-      Font(googleFont = gf, fontProvider = GoogleFontProvider),
-      Font(
-        googleFont = gf,
-        fontProvider = GoogleFontProvider,
-        weight = FontWeight.Bold,
-      ),
-    )
-  }
-}
+private val fileFontCache = ConcurrentHashMap<String, FontFamily>()
 
 fun fontFamilyFor(context: Context, fontData: FontData): FontFamily {
   val localResName = fontData.localResName
@@ -48,11 +23,23 @@ fun fontFamilyFor(context: Context, fontData: FontData): FontFamily {
     }
   }
 
-  val googleName = fontData.googleFontName
-  if (!googleName.isNullOrEmpty()) {
-    return googleFontFamily(googleName)
+  val repository = EntryPointAccessors
+    .fromApplication(context.applicationContext, FontBundleEntryPoint::class.java)
+    .fontBundleRepository()
+
+  val script = fontData.scriptCategory
+  val file = repository.cachedFontFile(script, fontData.idFont)
+  if (file != null) {
+    val path = file.absolutePath
+    fileFontCache[path]?.let { return it }
+    val family = repository.fontFamilyFromCache(script, fontData.idFont)
+    if (family != null) {
+      fileFontCache[path] = family
+      return family
+    }
   }
 
+  repository.ensureBundle(script)
   return FontFamily.Default
 }
 

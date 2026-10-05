@@ -1,6 +1,5 @@
 package io.github.nndwn.getgooglefont.compressit.compressor
 
-import io.github.nndwn.getgooglefont.compressit.compressor.FontCompressor
 import io.github.nndwn.getgooglefont.compressit.model.FontItem
 import io.github.nndwn.getgooglefont.compressit.model.ScriptCategory
 import org.junit.Assert.assertEquals
@@ -8,7 +7,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import org.apache.commons.compress.archivers.sevenz.SevenZFile
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.util.zip.ZipInputStream
 
 class FontCompressorTest {
@@ -38,6 +39,45 @@ class FontCompressorTest {
         assertEquals(2, entryNames.size)
         assertTrue(entryNames.contains("roboto.ttf"))
         assertTrue(entryNames.contains("open_sans.ttf"))
+    }
+
+    @Test
+    fun testCompressTo7z() {
+        val sampleFontData = "mock ttf content".toByteArray()
+        val entries = mapOf("roboto.ttf" to sampleFontData, "open_sans.ttf" to sampleFontData)
+
+        val targetFile = tempFolder.newFile("compressed_fonts.7z")
+        compressor.compressTo7z(entries, targetFile)
+        assertTrue(targetFile.length() > 0)
+
+        val entryNames = mutableListOf<String>()
+        SevenZFile.builder().setFile(targetFile).get().use { szf ->
+            var entry = szf.nextEntry
+            while (entry != null) {
+                entryNames.add(entry.name)
+                entry = szf.nextEntry
+            }
+        }
+
+        assertEquals(2, entryNames.size)
+        assertTrue(entryNames.contains("roboto.ttf"))
+        assertTrue(entryNames.contains("open_sans.ttf"))
+    }
+
+    @Test
+    fun testWriteEntriesToDir() {
+        val entries = mapOf(
+            "roboto.ttf" to "roboto bytes".toByteArray(),
+            "open_sans.ttf" to "open sans bytes".toByteArray(),
+        )
+
+        val dir = tempFolder.newFolder("fonts")
+        compressor.writeEntriesToDir(entries, dir)
+
+        assertTrue(File(dir, "roboto.ttf").exists())
+        assertTrue(File(dir, "open_sans.ttf").exists())
+        assertEquals("roboto bytes", File(dir, "roboto.ttf").readText())
+        assertEquals("open sans bytes", File(dir, "open_sans.ttf").readText())
     }
 
     @Test

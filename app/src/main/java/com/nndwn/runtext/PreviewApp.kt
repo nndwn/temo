@@ -73,6 +73,7 @@ private fun InteractivePreviewWrapper(
               MainScreenContent(
                 uiState = MainUiState.Success(settings, settings.lastText),
                 fonts = emptyList(),
+                readyScripts = emptySet(),
                 onEvent = {},
                 padding = innerPadding,
               )
