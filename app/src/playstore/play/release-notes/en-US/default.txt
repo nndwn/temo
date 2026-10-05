@@ -1,2 +1,3 @@
-- change name dan metadata
-- optimize performance
+- Migrate non-local font sources from Google Fonts to a self-hosted bundle
+- Download fonts based on the language/script in use (on-demand) and cache them offline
+- New fonts appear immediately after the download completes
